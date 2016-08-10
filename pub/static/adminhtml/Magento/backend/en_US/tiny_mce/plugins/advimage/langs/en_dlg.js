@@ -1,0 +1,1 @@
+/Users/james/Documents/web/m/lib/web/tiny_mce/plugins/advimage/langs/en_dlg.js

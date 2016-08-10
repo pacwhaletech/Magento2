@@ -1,0 +1,623 @@
+<?xml version="1.0"?>
+<root>
+  <blocks>
+    <item>
+      <title><![CDATA[Footer Shipping]]></title>
+      <identifier><![CDATA[footer_shipping]]></identifier>
+      <content><![CDATA[<div class="footer-static">
+<div class="row">
+<div class="col-sm-4 col-md-4 col-sms-12">
+<div class="f-col-inner">
+<div class="pull-left fa fa-phone">&nbsp;</div>
+<div class="media-body">
+<h3>Order online</h3>
+<p>Call Us: (0123) 456 789</p>
+</div>
+</div>
+</div>
+<div class="col-sm-4 col-md-4 col-sms-12">
+<div class="f-col-inner">
+<div class="pull-left fa  fa-rocket">&nbsp;</div>
+<div class="media-body">
+<h3>Worldwide shipping</h3>
+<p>Free Shipping On Order Over $99</p>
+</div>
+</div>
+</div>
+<div class="col-sm-4 col-md-4 col-sms-12">
+<div class="f-col-inner">
+<div class="pull-left fa fa-mail-reply-all">&nbsp;</div>
+<div class="media-body">
+<h3>30 day return</h3>
+<p>Moneyback guarantee</p>
+</div>
+</div>
+</div>
+</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Social Header]]></title>
+      <identifier><![CDATA[social_header]]></identifier>
+      <content><![CDATA[<ul class="link-follow">
+<li><a class="behance fa fa-behance" href="#"><span>Behance</span></a></li>
+<li class="first"><a class="facebook fa fa-facebook" href="#"><span>facebook</span></a></li>
+<li><a class="twitter fa fa-twitter" href="#"><span>twitter</span></a></li>
+<li><a class="linkedin fa fa-skype " href="#"><span>skype </span></a></li>
+</ul>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Footer Static]]></title>
+      <identifier><![CDATA[footer_static]]></identifier>
+      <content><![CDATA[<div class="footer-static">
+<div class="col-xs-12 col-sm-6 col-md-4">
+<div class="footer-links contacts">
+<h2 class="title">Contact</h2>
+<div class="footer-link-contact">
+<div class="logo-footer"><a href="#"><img src="{{media url="wysiwyg/logo.png"}}" alt="" /></a>
+<p>Hermes is a premium theme with advanced admin module. Let&rsquo;s build your marvellous website with magento 2.</p>
+</div>
+<ul class="ft-contactus">
+<li class="phone">Telephone: +01 234 567 89</li>
+<li class="email">Email: info@thebuesky.com</li>
+<li class="time">8:00 - 19:00, Monday - Saturday</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-2">
+<div class="footer-links">
+<h2 class="title">INFORMATION</h2>
+<ul>
+<li><a href="#">About Us</a></li>
+<li><a href="#">Delivery Information</a></li>
+<li><a href="#">Privacy &amp; Policy</a></li>
+<li><a href="#">Terms &amp; Conditions</a></li>
+<li><a href="#">Manufactures</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-2">
+<div class="footer-links">
+<h2 class="title">OUR SERVICE</h2>
+<ul>
+<li><a href="#">About Us</a></li>
+<li><a href="#">Custom Service</a></li>
+<li><a href="#">Contact Us</a></li>
+<li><a href="#">Custom Service</a></li>
+<li><a href="#">Manufactures</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-4">
+<div class="footer-links">
+<h2 class="title">Newsletter</h2>
+{{block class="Magento\Newsletter\Block\Subscribe" template="subscribe.phtml"}}</div>
+</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Banner Left New]]></title>
+      <identifier><![CDATA[banner_left_new]]></identifier>
+      <content><![CDATA[<div class="static-banner banner-left-top"><a href="#"><img src="{{media url="wysiwyg/banner44.jpg"}}" alt="" /></a></div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Banner Top]]></title>
+      <identifier><![CDATA[banner_top]]></identifier>
+      <content><![CDATA[<div class="row">
+<div class="col-md-4 col-sm-4 col-xs-12 col-banner-top">
+<div class="banner-top banner-top1">
+<div class="bs-banner"><a href="#"><img src="{{media url="wysiwyg/banner41.jpg"}}" alt="" /></a>
+<div class="bs-banner-text">
+<h3>Women</h3>
+<p>amet consectetur adipiscing elit.</p>
+<a class="view-collection">view collection</a></div>
+</div>
+</div>
+</div>
+<div class="col-md-4 col-sm-4 col-xs-12 col-banner-top">
+<div class="banner-top banner-top2">
+<div class="bs-banner"><a href="#"><img src="{{media url="wysiwyg/banner42.jpg"}}" alt="" /></a>
+<div class="bs-banner-text">
+<h3>Accessories</h3>
+<p>amet consectetur adipiscing elit.</p>
+<a class="view-collection">view collection</a></div>
+</div>
+</div>
+</div>
+<div class="col-md-4 col-sm-4 col-xs-12 col-banner-top">
+<div class="banner-top banner-top3">
+<div class="bs-banner"><a href="#"><img src="{{media url="wysiwyg/banner43.jpg"}}" alt="" /></a>
+<div class="bs-banner-text">
+<h3>Men</h3>
+<p>amet consectetur adipiscing elit.</p>
+<a class="view-collection">view collection</a></div>
+</div>
+</div>
+</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[ Banner Middle]]></title>
+      <identifier><![CDATA[banner_middle]]></identifier>
+      <content><![CDATA[<div class="static-banner banner-middle">
+<div class="row">
+<div class="col-md-6 col-xs-12">
+<a href="#"><img src="{{media url="wysiwyg/banner45.jpg"}}" alt="" /></a>
+</div>
+<div class="col-md-6 col-xs-12">
+<a href="#"><img src="{{media url="wysiwyg/banner46.jpg"}}" alt="" /></a>
+</div>
+</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Register Login]]></title>
+      <identifier><![CDATA[register_login]]></identifier>
+      <content><![CDATA[<div class="register-login"><a href="{{store url="customer/account/create/"}}">Registration</a><span>/</span><a href="{{store url="customer/account/login/"}}">Log in</a></div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Social Block]]></title>
+      <identifier><![CDATA[social_block]]></identifier>
+      <content><![CDATA[<ul class="link-follow">
+<li><a class="twitter fa fa-twitter" href="#"><span>twitter</span></a></li>
+<li><a class="linkedin fa fa-skype " href="#"><span>skype </span></a></li>
+<li><a class="rss fa fa-vine " href="#"><span>vine </span></a></li>
+<li class="first"><a class="facebook fa fa-facebook" href="#"><span>facebook</span></a></li>
+</ul>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Free Shipping]]></title>
+      <identifier><![CDATA[free_shipping]]></identifier>
+      <content><![CDATA[<div class="block-policy block">
+<div class="block-title">
+<h3 class="product-title heading">Policy</h3>
+</div>
+<div class="block-policy-content">
+<div class="policy-top">
+<div class="pull-left"><i class="fa fa-phone">&nbsp;</i></div>
+<div class="media-body">
+<h4>Order online</h4>
+<p>Call Us: (0123) 456 789</p>
+</div>
+</div>
+<div class="policy-top">
+<div class="pull-left"><i class="fa fa-rocket">&nbsp;</i></div>
+<div class="media-body">
+<h4>Worldwide shipping</h4>
+<p>Free Shipping On Order Over $99</p>
+</div>
+</div>
+<div class="policy-top">
+<div class="pull-left"><i class="fa fa-phone">&nbsp;</i></div>
+<div class="media-body">
+<h4>30 day return</h4>
+<p>Moneyback guarantee</p>
+</div>
+</div>
+</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Banner Top2]]></title>
+      <identifier><![CDATA[banner_top2]]></identifier>
+      <content><![CDATA[<div class="bs-banner"><a href="#"><img src="{{media url="wysiwyg/banner31.jpg"}}" alt="" /></a></div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Banner Center]]></title>
+      <identifier><![CDATA[banner_center]]></identifier>
+      <content><![CDATA[<div class="banner-center bs-banner">
+<div class="row">
+<div class="col-md-8 col-sm-8 col-xs-12"><a href="#"><img src="{{media url="wysiwyg/banner32.jpg"}}" alt="" /></a></div>
+<div class="col-md-4 col-sm-4 col-xs-12"><a href="#"><img src="{{media url="wysiwyg/banner33.jpg"}}" alt="" /></a></div>
+</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Footer Static2]]></title>
+      <identifier><![CDATA[footer_static2]]></identifier>
+      <content><![CDATA[<div class="footer-static">
+<div class="col-xs-12 col-sm-6 col-md-3 footer-primary-column-1">
+<div class="footer-links contacts">
+<h2 class="title">Contact</h2>
+<div class="footer-link-contact">
+<div class="logo-footer"><a href="#"><img src="{{media url="wysiwyg/logo3.png"}}" alt="" /></a>
+<p>Hermes is a premium theme with advanced admin module.</p>
+</div>
+<ul class="ft-contactus">
+<li class="phone">Telephone: +01 234 567 89</li>
+<li class="email">Email: info@thebuesky.com</li>
+<li class="time">8:00 - 19:00, Monday - Saturday</li>
+</ul>
+<div class="buy-theme"><a href="#">By this theme</a></div>
+</div>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-3 footer-primary-column-2">
+<div class="footer-links">
+<h2 class="title">INFORMATION</h2>
+<ul>
+<li><a href="#">About Us</a></li>
+<li><a href="#">Delivery Information</a></li>
+<li><a href="#">Privacy &amp; Policy</a></li>
+<li><a href="#">Terms &amp; Conditions</a></li>
+<li><a href="#">Manufactures</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-3 footer-primary-column-3">
+<div class="footer-links">
+<h2 class="title">OUR SERVICE</h2>
+<ul>
+<li><a href="#">About Us</a></li>
+<li><a href="#">Custom Service</a></li>
+<li><a href="#">Contact Us</a></li>
+<li><a href="#">Custom Service</a></li>
+<li><a href="#">Manufactures</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-3 footer-primary-column-4">
+<div class="footer-links">
+<h2 class="title">MY ACCOUNT</h2>
+<ul>
+<li><a href="#">My Account</a></li>
+<li><a href="#">Wish List</a></li>
+<li><a href="#">Site Map</a></li>
+<li><a href="#">Custom Service</a></li>
+<li><a href="#">Custom Link</a></li>
+</ul>
+</div>
+</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Footer Payment]]></title>
+      <identifier><![CDATA[footer_payment]]></identifier>
+      <content><![CDATA[<div class="footer-payment"><a href="#"><img src="{{media url="wysiwyg/footer-payment.png"}}" alt="" /></a></div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Brand Slider]]></title>
+      <identifier><![CDATA[brand_slider]]></identifier>
+      <content><![CDATA[<div class="band">
+<div class="rokan-product-heading rokan-brand-heading">
+<h2 class="product-title heading">Top Brands</h2>
+</div>
+<ul class="brand-list">
+<li><img src="{{media url="wysiwyg/br1.jpg"}}" alt="" /></li>
+<li><img src="{{media url="wysiwyg/br2.jpg"}}" alt="" /></li>
+<li><img src="{{media url="wysiwyg/br3.jpg"}}" alt="" /></li>
+<li><img src="{{media url="wysiwyg/br4.jpg"}}" alt="" /></li>
+</ul>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Home3_banner_top]]></title>
+      <identifier><![CDATA[home3_banner_top]]></identifier>
+      <content><![CDATA[<div class="bs-banner banner-top">
+<div class="row">
+<div class="col-md-4 col-sm-4 col-xs-12">
+<div class="box-text">
+<h2>Hermes collection</h2>
+<p>It is a long established fact that a reader will bedistracted</p>
+<a href="#">view all</a></div>
+</div>
+<div class="col-md-4 col-sm-4 col-xs-12"><a href="#"><img src="{{media url="wysiwyg/home3/banner11.jpg"}}" alt="" /></a></div>
+<div class="col-md-4 col-sm-4 col-xs-12"><a href="#"><img src="{{media url="wysiwyg/home3/banner12.jpg"}}" alt="" /></a></div>
+</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Testimonial]]></title>
+      <identifier><![CDATA[testimonial]]></identifier>
+      <content><![CDATA[<div class="amz-testimonial-container block">
+<div class="rokan-product-heading rokan-testimonial-heading"><h2>Testimonial</h2></div>
+<div class="testimonial-inner"><!--  Slider item testimonial -->
+<div class="item testimonial">
+<div class="persion">
+<div class="avatar"><img src="{{media url="wysiwyg/home3/testimonial.png"}}" alt="" /></div>
+<div class="name-position">
+<p class="name"><span>Pixel - Creative</span></p>
+<p class="time">16 November, 2014</p>
+</div>
+</div>
+<div class="quote">
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et ullamcorper tortor. Cras pulvinar ex maximus ex ullamcorper, ut sollicitudin risus laoreet.</p>
+</div>
+</div>
+</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Home3 Des Title]]></title>
+      <identifier><![CDATA[home3_des_title]]></identifier>
+      <content><![CDATA[<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Category Slider]]></title>
+      <identifier><![CDATA[category_slider]]></identifier>
+      <content><![CDATA[<div class="category-tab-slider">{{widget type="Rokanthemes\Categorytab\Block\CateWidget" title="Our Products" identify="our-product" category_id="60,61,62" template="categorytab/grid.phtml"}}</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Home3 Footer Static]]></title>
+      <identifier><![CDATA[home3_footer_static]]></identifier>
+      <content><![CDATA[<div class="footer-static">
+<div class="col-xs-12 col-sm-6 col-md-3 footer-primary-column-1">
+<div class="footer-links contacts">
+<h2 class="title">Contact</h2>
+<div class="footer-link-contact">
+<div class="logo-footer"><a href="#"><img src="{{media url="wysiwyg/home3/logo.png"}}" alt="" /></a>
+<p>Hermes is a premium theme with advanced admin module.</p>
+</div>
+<ul class="ft-contactus">
+<li class="phone">Telephone: +01 234 567 89</li>
+<li class="email">Email: info@thebuesky.com</li>
+<li class="time">8:00 - 19:00, Monday - Saturday</li>
+</ul>
+<div class="buy-theme"><a href="#">By this theme</a></div>
+</div>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-3 footer-primary-column-2">
+<div class="footer-links">
+<h2 class="title">INFORMATION</h2>
+<ul>
+<li><a href="#">About Us</a></li>
+<li><a href="#">Delivery Information</a></li>
+<li><a href="#">Privacy &amp; Policy</a></li>
+<li><a href="#">Terms &amp; Conditions</a></li>
+<li><a href="#">Manufactures</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-3 footer-primary-column-3">
+<div class="footer-links">
+<h2 class="title">OUR SERVICE</h2>
+<ul>
+<li><a href="#">About Us</a></li>
+<li><a href="#">Custom Service</a></li>
+<li><a href="#">Contact Us</a></li>
+<li><a href="#">Custom Service</a></li>
+<li><a href="#">Manufactures</a></li>
+</ul>
+</div>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-3 footer-primary-column-4">
+<div class="footer-links">
+<h2 class="title">MY ACCOUNT</h2>
+<ul>
+<li><a href="#">My Account</a></li>
+<li><a href="#">Wish List</a></li>
+<li><a href="#">Site Map</a></li>
+<li><a href="#">Custom Service</a></li>
+<li><a href="#">Custom Link</a></li>
+</ul>
+</div>
+</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Home3 Newletter]]></title>
+      <identifier><![CDATA[home3_newletter]]></identifier>
+      <content><![CDATA[<div class="footer-links">{{block class="Magento\Newsletter\Block\Subscribe" template="subscribe.phtml"}}</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Home4 Banner Top]]></title>
+      <identifier><![CDATA[home4_banner_top]]></identifier>
+      <content><![CDATA[<div class="static-banner banner-top"><a href="#"><img src="{{media url="wysiwyg/home4/banner51.jpg"}}" alt="" /></a> <a href="#"><img src="{{media url="wysiwyg/home4/banner52.jpg"}}" alt="" /></a></div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Home4 Categorytab]]></title>
+      <identifier><![CDATA[home4categorytab]]></identifier>
+      <content><![CDATA[<div class="category-tab-slider">{{widget type="Rokanthemes\Categorytab\Block\CateWidget" title="New Arrival" identify="new-arrival" category_id="3,4,5" template="categorytab/grid.phtml"}}</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Home4 Social]]></title>
+      <identifier><![CDATA[home4_social]]></identifier>
+      <content><![CDATA[<div class="social-right">
+<div class="rokan-product-heading rokan-social-heading">
+		<h2>Connect with us</h2>
+	</div>
+<ul class="link-follow">
+<li><a class="twitter" href="#"><em class="fa fa-twitter">&nbsp;</em></a></li>
+<li><a class="facebook" href="#"><em class="fa fa-facebook">&nbsp;</em></a></li>
+<li><a class="skype " href="#"><em class="fa fa-skype ">&nbsp;</em></a></li>
+<li><a class="google-plus" href="#"><em class="fa fa-google-plus">&nbsp;</em></a></li>
+<li><a class="rss" href="#"><em class="fa fa-rss">&nbsp;</em></a></li>
+</ul>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Home4 Right Block]]></title>
+      <identifier><![CDATA[home4_right_block]]></identifier>
+      <content><![CDATA[<div class="static-banner banner-left-top"><a href="#"><img src="{{media url="wysiwyg/home4/banner55.jpg"}}" alt="" /></a></div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Home4 Brand]]></title>
+      <identifier><![CDATA[home4_brand]]></identifier>
+      <content><![CDATA[<div class="brand-slider">
+<ul class="brand-list">
+<li><img src="{{media url="wysiwyg/home4/br51.jpg"}}" alt="" /></li>
+<li><img src="{{media url="wysiwyg/home4/br52.jpg"}}" alt="" /></li>
+<li><img src="{{media url="wysiwyg/home4/br53.jpg"}}" alt="" /></li>
+<li><img src="{{media url="wysiwyg/home4/br54.jpg"}}" alt="" /></li>
+<li><img src="{{media url="wysiwyg/home4/br55.jpg"}}" alt="" /></li>
+<li><img src="{{media url="wysiwyg/home4/br56.jpg"}}" alt="" /></li>
+</ul>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Home4 Testimonial]]></title>
+      <identifier><![CDATA[home4_testimonial]]></identifier>
+      <content><![CDATA[<div class="testimonial">
+<div class="rokan-product-heading rokan-testimonial-heading">
+<h2>Testimonial</h2>
+</div>
+<div class="block-testimonial">
+<div class="item-tes">
+<div class="avatar"><img src="{{media url="wysiwyg/home4/tes1.png"}}" alt="" /></div>
+<div class="tes-content">
+<h4>The Blue Sky</h4>
+<p>&ldquo;Proin gravida nibh vel velit auctor aliquet. ...&rdquo;</p>
+</div>
+</div>
+</div>
+<div class="block-testimonial">
+<div class="item-tes">
+<div class="avatar"><img src="{{media url="wysiwyg/home4/tes2.png"}}" alt="" /></div>
+<div class="tes-content">
+<h4>Hermes Creative</h4>
+<p>&ldquo;Proin gravida nibh vel velit auctor aliquet. ...&rdquo;</p>
+</div>
+</div>
+</div>
+<div class="block-testimonial">
+<div class="item-tes">
+<div class="avatar"><img src="{{media url="wysiwyg/home4/tes3.png"}}" alt="" /></div>
+<div class="tes-content">
+<h4>Web developer</h4>
+<p>&ldquo;Proin gravida nibh vel velit auctor aliquet. ...&rdquo;</p>
+</div>
+</div>
+</div>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Home4 Block Middle]]></title>
+      <identifier><![CDATA[home4_block_middle]]></identifier>
+      <content><![CDATA[<div class="static-banner banner-middle">
+<a href="#"><img src="{{media url="wysiwyg/home4/banner54.png"}}" alt="" /></a>
+</div>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Custom Link Before]]></title>
+      <identifier><![CDATA[menu_custom_links_before]]></identifier>
+      <content><![CDATA[<ul>
+<li class="ui-menu-item level0"><a href="{{store url=''}}" class="level-top"><span>Home</span></a></li>
+</ul>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+    <item>
+      <title><![CDATA[Custom Link]]></title>
+      <identifier><![CDATA[menu_custom_links]]></identifier>
+      <content><![CDATA[<ul>
+<li class="ui-menu-item level0"><a href="{{store url='blog'}}" class="level-top"><span>Blog</span></a></li>
+</ul>]]></content>
+      <is_active><![CDATA[1]]></is_active>
+      <store_id>
+        <id><![CDATA[0]]></id>
+      </store_id>
+    </item>
+  </blocks>
+</root>

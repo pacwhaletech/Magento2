@@ -1,0 +1,127 @@
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+ body{ background: @bkg; font-family: @bdf; font-size: 14px; line-height: 22px; max-width: 1920px; margin: 0 auto; overflow-x: hidden;}
+.page.messages{
+    max-width: 1170px;
+    margin: 0 auto;
+    .message.success{
+        font-size: 1rem;
+    }
+}
+ .bundle-actions .action.primary, .bundle-options-container .block-bundle-summary .box-tocart .action.primary, .product-info-main .box-tocart .action.tocart, .product-options-bottom .box-tocart .action.tocart, .cart-container .checkout-methods-items .action.primary, .block-minicart .block-content > .actions > .primary .action.primary, .methods-shipping .actions-toolbar .action.primary, .block-authentication .action.action-register, .block-authentication .action.action-login, .checkout-payment-method .payment-method-content > .actions-toolbar > .primary .action.primary, .form-address-edit .actions-toolbar .action.primary, .multicheckout .action.primary{
+    font-size: 13px;
+    text-transform: uppercase;
+    font-family: @titlefont;
+    line-height: 1.5;
+    padding: 10px 25px;
+ }
+ .block-cart-failed .action.continue, .cart-container .form-cart .action.continue,
+ button, .cart.table-wrapper .actions-toolbar > .action, .cart.table-wrapper .action-gift,
+ .action.primary{
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 0;
+    color: #ffffff;
+    background-color: #333;
+    padding: 10px 25px;
+    border: 0;
+    font-family: @titlefont;
+    border-radius: 0;
+    line-height: 1;
+ }
+ button:hover, .cart.table-wrapper .actions-toolbar > .action:hover, .cart.table-wrapper .action-gift:hover,
+ .block-cart-failed .action.continue:hover, .cart-container .form-cart .action.continue:hover,
+ .action.primary:hover{
+    background: @maincolor;
+    border: 0; 
+    border-radius: 0;
+    color: #fff;
+ }
+ .abs-shopping-cart-items .action.continue:before, .block-cart-failed .action.continue:before, .cart-container .form-cart .action.continue:before{
+    display: none;
+ }
+.cart.table-wrapper .actions-toolbar > .action{
+    padding: 5px 20px;
+    line-height: 2;
+    font-size: 10px;
+ }
+ .cart-summary .block > .title:after, .paypal-review-discount .block > .title:after{
+    top: 0;
+ }
+ .cart-totals .amount, .opc-block-summary .table-totals .amount,
+ .cart-totals .mark, .opc-block-summary .table-totals .mark{
+    border-top: 0;
+ }
+.price-box .price-label{ display: none;}
+.label{ color: #555;
+}
+.rating-summary{
+    .rating-result{
+        margin-left: 5px;
+        width: 50px;
+        &:before{
+            font-family: FontAwesome;
+            content: '\f005' '\f005' '\f005' '\f005' '\f005';
+            font-size: 10px;
+            height: 10px;
+            letter-spacing: 1px;
+            line-height: 1;
+            top: 0px;
+        }
+        span{
+            &:before{
+                color: #e89f3f;
+                font-family: FontAwesome;
+                content: '\f005' '\f005' '\f005' '\f005' '\f005';
+                font-size: 10px;
+                height: 10px;
+                line-height: 10px;
+                letter-spacing: 1px;
+            }
+            span{
+                display: none;
+            }
+        }
+    }
+}
+.product-reviews-summary{
+    .reviews-actions{
+        font-size: 13px;
+        margin-left: 10px; padding-left: 10px;
+    }
+}
+.block-authentication .block-title,
+.opc-wrapper .step-title, .opc-block-shipping-information .shipping-information-title, .opc-block-summary > .title, .checkout-agreements-items .checkout-agreements-item-title,
+ .column.main .cart-summary .block > .title strong, .column.main .paypal-review-discount .block > .title strong{
+    font-size: 15px;
+    text-transform: uppercase;
+    font-family: @titlefont;
+ }
+ .modal-header,
+ .modal-content{
+    box-shadow: none;
+    border: 0;
+ }
+ .abs-margin-for-forms-desktop, .fieldset .legend, .column:not(.sidebar-main) form .actions-toolbar, .column:not(.sidebar-additional) form .actions-toolbar, .login-container .fieldset:after{
+    margin-left: 0;
+    font-size: 13px;
+    text-transform: uppercase;
+ }
+ .fieldset > .field > .label, .fieldset > .fields > .field > .label{ font-weight: normal;}
+ .block-collapsible-nav .item.current a, .block-collapsible-nav .item.current strong{
+    border-color: @maincolor;
+ }
+ .abs-account-blocks .block-title > strong, .block-compare .block-title > strong, .block-giftregistry-results .block-title > strong, .block-giftregistry-shared-items .block-title > strong, .block-wishlist-search-results .block-title > strong, .block-reorder .block-title > strong, .widget .block-title > strong, .block-wishlist .block-title > strong, .account .column.main .block:not(.widget) .block-title > strong, .multicheckout .block-title > strong, .paypal-review .block .block-title > strong, .magento-rma-guest-returns .column.main .block:not(.widget) .block-title > strong, [class^="sales-guest-"] .column.main .block:not(.widget) .block-title > strong, .sales-guest-view .column.main .block:not(.widget) .block-title > strong{
+    font-size: 18px;
+    text-transform: uppercase;
+    font-family: @titlefont;
+ }
+ .block-reorder{
+    .product-item, .product-list-item{
+        padding-left: 0;
+    }
+ }
+ .navigation, .breadcrumbs, .page-header .header.panel, .header.content, .footer.content, .page-wrapper > .widget, .page-wrapper > .page-bottom, .block.category.event, .top-container, .page-main{ max-width: 1210px;}

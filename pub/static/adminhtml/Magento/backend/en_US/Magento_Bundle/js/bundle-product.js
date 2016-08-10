@@ -1,0 +1,1 @@
+/Users/james/Documents/web/m/vendor/magento/module-bundle/view/adminhtml/web/js/bundle-product.js

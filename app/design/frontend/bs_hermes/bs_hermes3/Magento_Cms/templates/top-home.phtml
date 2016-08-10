@@ -1,0 +1,51 @@
+<div class="banner-top-home">
+	<div class="container">
+		<?php  echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('home3_banner_top')->toHtml(); ?>
+	</div>
+</div>
+<div class="banner-top-home">
+	<div class="container-fluid">
+		<?php  echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('banner_top')->toHtml(); ?>
+	</div>
+</div>
+<!--
+<div class="onsale-countdown">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-xs-12">			
+			</div>
+			<div class="col-md-6 col-xs-12">			
+				<?php echo $block->getLayout()->createBlock('Rokanthemes\PriceCountdown\Block\Pricecountdown')->setTemplate('Rokanthemes_PriceCountdown::pricecountdown.phtml')->toHtml();?>
+			</div>
+		</div>
+	</div>
+</div> -->
+<div class="box-product-tab">
+	<div class="container">
+		<?php  echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('category_slider')->toHtml(); ?>
+	</div>
+</div>	
+<div class="box-blog">
+	<div class="container">
+		<?php echo $block->getLayout()->createBlock('Rokanthemes\Blog\Block\Sidebar\Recent')->setTemplate('Rokanthemes_Blog::sidebar/slider.phtml')->toHtml();?>
+	</div>
+</div>	
+<div class="group-product">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<?php  echo $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('testimonial')->toHtml(); ?>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<?php echo $block->getLayout()->createBlock('Rokanthemes\Newproduct\Block\Newproduct')->setTemplate('Rokanthemes_Newproduct::newproduct.phtml')->toHtml();?>
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<?php echo $block->getLayout()->createBlock('Rokanthemes\Featuredpro\Block\Featured')->setTemplate('Rokanthemes_Featuredpro::featured.phtml')->toHtml();?> 
+			</div>
+			<div class="col-md-3 col-sm-6 col-xs-12">
+				<?php echo $block->getLayout()->createBlock('Magento\Catalog\Block\Product\ListProduct')->setTemplate('Magento_Catalog::product/category_mostviewed.phtml')->setCategoryId(66)->toHtml();?>
+			</div>
+		</div>
+	</div>
+</div>
+
