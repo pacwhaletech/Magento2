@@ -24,6 +24,19 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
      */
 	protected $_messege = '';
 	protected $_result = [];
+	
+	
+	protected function initTicketProduct($productId)
+	{
+        $storeId = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
+        try {
+            return $this->productRepository->getById($productId, false, $storeId);
+        } catch (NoSuchEntityException $e) {
+            return false;
+        }
+	}	
+	
+	
     public function execute()
     {
         if (!$this->_formKeyValidator->validate($this->getRequest())) {
@@ -32,26 +45,50 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
 
         $params = $this->getRequest()->getParams();
         try {
-            if (isset($params['qty'])) {
-                $filter = new \Zend_Filter_LocalizedToNormalized(
-                    ['locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocale()]
-                );
-                $params['qty'] = $filter->filter($params['qty']);
+            if($params['is_cruise']){
+                // for items in related
+                // create a new product and add to cart
+                $productIds = $params['ticket_id'];
+                foreach($productIds as $key=>$value) {
+                    $params['options'] = [];
+                    $productId = $params['ticket_id'][$key];
+                    $productQuantity = $params['ticket_qty'][$key];
+                    $product = $this->initTicketProduct($productId);
+                    $options = $product->getOptions();
+                    foreach ($options as $o) {
+                        if($o->getTitle() == "Cruise Time")
+                        {
+                            $id = $o->getId();
+                            $params['options'][$id] = "2:00pm";
+                        }
+                        //$o.setValue('2:00');
+                        $x = 5;
+                    }
+                    $productParams = $params;
+                    $productParams['qty'] = $productQuantity;
+                    $productParams['product'] = $productId;
+                    $james = true;
+                    $this->cart->addProduct($product, $productParams);
+                }
             }
+            else{
+                 if (isset($params['qty'])) {
+                    $filter = new \Zend_Filter_LocalizedToNormalized(
+                        ['locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocale()]
+                     );
+                    $params['qty'] = $filter->filter($params['qty']);
+                 }
 
-            $product = $this->_initProduct();
-            $related = $this->getRequest()->getParam('related_product');
-
-            /**
-             * Check product availability
-             */
-            if (!$product) {
-                return $this->goBack();
-            }
-
-            $this->cart->addProduct($product, $params);
-            if (!empty($related)) {
-                $this->cart->addProductsByIds(explode(',', $related));
+                $product = $this->_initProduct();
+                $related = $this->getRequest()->getParam('related_product');
+                
+                /**
+                 * Check product availability
+                 */
+                if (!$product) {
+                   return $this->goBack();
+                }               
+                $this->cart->addProduct($product, $productParams);
             }
 
             $this->cart->save();

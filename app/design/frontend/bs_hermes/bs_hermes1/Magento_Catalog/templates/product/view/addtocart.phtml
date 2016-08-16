@@ -15,7 +15,7 @@
     <div class="fieldset">
         <?php if ($block->shouldRenderQuantity()): ?>
         <div class="field qty">
-            <label class="label" for="qty"><span><?php /* @escapeNotVerified */ echo __('Qantity :') ?></span></label>
+            <label class="label" for="qty"><span><?php /* @escapeNotVerified */ echo __('Quantity :') ?></span></label>
             <div class="control">
                 <input type="number"
                        name="qty"
@@ -25,6 +25,12 @@
                        title="<?php /* @escapeNotVerified */ echo __('Qantity') ?>" class="input-text qty"
                        data-validate="<?php echo $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
                        />
+                
+                <input type="hidden" name="is_cruise" value="1"/>
+                <input type="hidden" name="ticket_id[]" value="19"/>
+                <input type="text" name="ticket_qty[]" value="3"/>
+                <input type="hidden" name="ticket_id[]" value="20"/>
+                <input type="text" name="ticket_qty[]" value="6"/>
             </div>
         </div>
         <?php endif; ?>
