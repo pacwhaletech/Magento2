@@ -1,0 +1,15 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "."
+		}
+	],
+    "settings": {
+        "xdebug": {
+             "url": "http://localhost:8888/m/",
+                "path_mapping": {"/m/" : "/Users/james/documents/web/m/"}        
+        }
+    }
+}
