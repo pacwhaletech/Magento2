@@ -1,2 +1,8 @@
 var/cache/*/*
 var/cache/mage--0/mage---9d3_DB_PDO_MYSQL_DDL_CATALOG_PRODUCT_ENTITY_INT_1
+
+var/cache/mage--0/mage---9d3_EAV_ENTITY_ATTRIBUTES_CODES3_1_3
+
+var/cache/mage--0/mage---9d3_DB_PDO_MYSQL_DDL_CATALOG_PRODUCT_ENTITY_INT_1
+
+var/cache/mage--0/mage---9d3_DB_PDO_MYSQL_DDL_CATALOG_PRODUCT_ENTITY_MEDIA_GALLERY_VALUE_1

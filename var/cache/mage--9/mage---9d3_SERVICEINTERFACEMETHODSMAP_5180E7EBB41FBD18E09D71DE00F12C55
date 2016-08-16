@@ -1,2 +1,0 @@
-a:4:{s:4:"hash";s:0:"";s:5:"mtime";i:1471310459;s:6:"expire";i:9999999999;s:4:"tags";s:23:"9d3_REFLECTION,9d3_MAGE";}
-a:1:{s:9:"calculate";a:4:{s:4:"type";s:39:"\Magento\Quote\Api\Data\TotalsInterface";s:10:"isRequired";b:1;s:11:"description";N;s:14:"parameterCount";i:2;}}
