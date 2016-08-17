@@ -31,17 +31,14 @@
         <div>
             <div class="control">
 				<?php 
-				    $relatedProducts = [20,19]; //$_product->getRelatedProductIds(); 
-				    $price = 0;
-				    $related_product = null;
+				    $relatedProducts = $_product->getRelatedProductIds(); 
 				    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
 				?>
                 <?php foreach($relatedProducts as $pid): ?>
                     <?php 
-                        $related_product = $objectManager->get('Magento\Catalog\Model\Product')->load($pid);
+                        $related_product = $objectManager->create('Magento\Catalog\Model\Product')->load($pid);
                         $productName = $related_product->getName();
                         $price = $related_product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount();
-                        $x=9;
                     ?>
 					<input type="hidden" name="ticket_id[]" value="<?php echo $pid; ?>"/>
                     <div>
