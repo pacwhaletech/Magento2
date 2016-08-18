@@ -61,6 +61,11 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
                             $id = $o->getId();
                             $params['options'][$id] = $params['cruise_time'];
                         }
+                        elseif($o->getTitle() == "Cruise Date")
+                        {
+                            $id = $o->getId();
+                            $params['options'][$id] = $params['cruise_date'];
+                        }
                         //$o.setValue('2:00');
                         $x = 5;
                     }
