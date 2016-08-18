@@ -21,3 +21,28 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .page-footer .footer-top .f-col-inner p {
     color: #ccc;
 }
+
+.category-cruises .product-info-price, .category-cruises .product-reviews-summary, 
+.category-cruises .price-final_price, .product-social-links {
+	display:none;
+}
+
+.cruise-date-time-controls{
+	margin-bottom:20px;
+}
+
+.cruise-ticket-label{
+	line-height:33px;
+	
+}
+
+.cruise-ticket input{
+	margin-left:20px;
+}
+
+.cruise-ticket{
+	margin-bottom:20px;
+}
+.product.data.items > .data.item.title:first-child{
+	margin-left: 43% !important;
+}
