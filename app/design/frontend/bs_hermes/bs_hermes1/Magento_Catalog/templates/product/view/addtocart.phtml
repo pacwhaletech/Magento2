@@ -16,35 +16,54 @@
         <?php if ($block->shouldRenderQuantity()): ?>
         
         <input type="hidden" name="is_cruise" value="1"/>
-        <div class="field">
-            <label class="label" for="cruise_date"><span><?php /* @escapeNotVerified */ echo __('Cruise Date') ?></span></label>
-            <div class="control">
-                <input type="text" name="cruise_date" id="cruise_date" value="10/1/2016" style="width:100px"><br/>
-            </div>
+        <h2>Select Date and Time:</h2>
+        <div class="row cruise-date-time-controls">
+        	<div class="col-md-3">
+                <div class="field">
+                    <label class="label" for="cruise_date"><span><?php /* @escapeNotVerified */ echo __('Cruise Date') ?></span></label>
+                    <div class="control">
+                        <input type="text" name="cruise_date" id="cruise_date" value="10/1/2016" style="width:100px"><br/>
+                    </div>
+                </div>	
+        	</div>
+        	<div class="col-md-9">
+                <div class="field">
+                    <label class="label" for="cruise_time"><span><?php /* @escapeNotVerified */ echo __('Cruise Time') ?></span></label>
+                    <div class="control">
+                        <input type="text" name="cruise_time" id="cruise_time" value="7:00am" style="width:100px"><br/>
+                    </div>
+                </div>
+        	</div>
         </div>
-        <div class="field">
-            <label class="label" for="cruise_time"><span><?php /* @escapeNotVerified */ echo __('Cruise Time') ?></span></label>
-            <div class="control">
-                <input type="text" name="cruise_time" id="cruise_time" value="7:00am" style="width:100px"><br/>
-            </div>
-        </div>
+
+
         <div>
-            <div class="control">
+            <div class="control cruise-tickets">
+            	<h2>Choose Tickets:</h2>
 				<?php 
-				    $relatedProducts = $_product->getRelatedProductIds(); 
-				    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+				    $related_products = $_product->getRelatedProductIds(); 
+				    $object_manager = \Magento\Framework\App\ObjectManager::getInstance();
+				    $sorted_related_products = [];
+    				foreach($related_products as $pid){
+    					$related_product = $object_manager->create('Magento\Catalog\Model\Product')->load($pid);
+    					$age_limit = $related_product->getData('age_limit');
+    					$sorted_related_products[$age_limit] = $related_product;
+    				}
+    				$result = krsort($sorted_related_products);
+    				$x=9;				
 				?>
-                <?php foreach($relatedProducts as $pid): ?>
+				
+                <?php foreach($sorted_related_products as $sorted_related_product): ?>
                     <?php 
-                        $related_product = $objectManager->create('Magento\Catalog\Model\Product')->load($pid);
-                        $productName = $related_product->getName();
-                        $price = $related_product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount();
+                        $product_id = $sorted_related_product->getId();
+                        $product_name = $sorted_related_product->getName();
+                        $product_price = $sorted_related_product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount();
                     ?>
-					<input type="hidden" name="ticket_id[]" value="<?php echo $pid; ?>"/>
-                    <div>
-                    	<label class="label" for="">
+					<input type="hidden" name="ticket_id[]" value="<?php echo $product_id; ?>"/>
+                    <div class="cruise-ticket">
+                    	<label class="label cruise-ticket-label" for="">
                     		<span>
-                    			<?php echo $productName?> : $<?php echo $price?>
+                    			<?php echo $product_name?> : $<?php echo $product_price?>
                     		</span>
                     	</label>
                     	<input type="text" name="ticket_qty[]" value="0" style="width:40px"/>
@@ -100,6 +119,8 @@
                 return false;
             }
         });
+
+        $('body').addClass("category-cruises");
     });
 </script>
 <?php endif; ?>
