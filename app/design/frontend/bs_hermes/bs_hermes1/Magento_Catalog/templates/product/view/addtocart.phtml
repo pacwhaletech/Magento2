@@ -8,21 +8,26 @@
 
 /** @var $block \Magento\Catalog\Block\Product\View */
 ?>
-<?php $_product = $block->getProduct(); ?>
+<?php 
+    $_product = $block->getProduct(); 
+    $tour_code = $_product->getData('tour_code'); 
+?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()): ?>
-<div class="box-tocart">
-    <div class="fieldset">
+<div class="box-tocart" ng-app="ticketSelectorApp">
+    <div class="fieldset" ng-controller="timeAndDate">
         <?php if ($block->shouldRenderQuantity()): ?>
         
         <input type="hidden" name="is_cruise" value="1"/>
+        <input type="hidden" name="tour_code" id="tour_code" value="<?php echo $tour_code;?>"/>
         <h2>Select Date and Time:</h2>
         <div class="row cruise-date-time-controls">
         	<div class="col-md-3">
                 <div class="field">
                     <label class="label" for="cruise_date"><span><?php /* @escapeNotVerified */ echo __('Cruise Date') ?></span></label>
                     <div class="control">
-                        <input type="text" name="cruise_date" id="cruise_date" value="10/1/2016" style="width:100px"><br/>
+                        <!--  <input type="text" name="cruise_date" id="cruise_date" value="10/1/2016" style="width:100px"><br/> -->
+                        <input class="datepicker" name="cruise_date" id="cruise_date" required class="form-control" type="text" id="pdp-date" />
                     </div>
                 </div>	
         	</div>
@@ -30,7 +35,7 @@
                 <div class="field">
                     <label class="label" for="cruise_time"><span><?php /* @escapeNotVerified */ echo __('Cruise Time') ?></span></label>
                     <div class="control">
-                        <input type="text" name="cruise_time" id="cruise_time" value="7:00am" style="width:100px"><br/>
+                        <select name="cruise_time" id="cruise_time" ng-disabled="hasNoTimes()" ng-options="cruiseTime.time for cruiseTime in cruiseTimes track by cruiseTime.time" ng-model="cruiseTime" style="width:100px"></select>
                     </div>
                 </div>
         	</div>
@@ -98,7 +103,19 @@
     }
 </script>
 <?php else : ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
+
 <script>
+	var _$;
+	Date.prototype.mmddyyyy = function() {
+		  var mm = this.getMonth() + 1; // getMonth() is zero-based
+		  if(mm < 10){mm = "0" + mm}
+		  var dd = this.getDate();
+		  if(dd < 10){dd = "0" + dd}
+		  return [mm, dd, this.getFullYear()].join('/'); // padding
+		};
+
+		
     require([
         'jquery',
         'mage/mage',
@@ -106,7 +123,7 @@
         'Magento_Catalog/js/catalog-add-to-cart'
     ], function ($) {
         'use strict';
-
+		_$ = $;
         $('#product_addtocart_form').mage('validation', {
             radioCheckboxClosest: '.nested',
             submitHandler: function (form) {
@@ -121,6 +138,66 @@
         });
 
         $('body').addClass("category-cruises");
+
+        var tour_code = $('#tour_code').val();
     });
+
+    var t = angular.module('ticketSelectorApp',[]);
+
+    // controller
+    t.controller('timeAndDate',function($scope,$http){
+    	console.log('timeAndDate controller');
+        $scope.datesAndTimes = [];
+        $scope.cruiseTime = "fake";
+        $scope.cruiseTimes = [];
+        loadDatesAndTimes($scope);
+        var datesAndTimes;
+        function hasNoTimes(){
+			var b = ($scope.cruiseTimes.length == 0);
+			return b;
+        }
+        $scope.hasNoTimes = hasNoTimes;
+        function loadDatesAndTimes($scope){
+        	console.log('loadDatesAndTimes');
+        	$http.post('/m/custom/check_avail.php', {tourcode:19}).then(function(response){
+        		$scope.datesAndTimes = response.data;
+        		console.log('date times ready.');
+				var options = {
+					autoClose: true,
+		            dateFormat: 'mm-dd-yy',
+		            constrainInput: false,
+		            minDate: new Date(),
+		            onSelect: function(dt, dp){
+		                return onDaySelect(dt, $scope)
+		            },
+		            beforeShowDay: function(dt){
+		                return checkDayForCruises(dt, $scope);
+		            }
+				}
+				$scope.daypicker = _$('.datepicker').datepicker(options);
+        	});
+          }
+        function checkDayForCruises(dt, $scope){
+			var hasCruise = !($scope.datesAndTimes[dt.mmddyyyy()] === undefined);
+			var dd = new Date()
+			if(dd.mmddyyyy() == dt.mmddyyyy()){
+				hasCruise = true;
+			}
+			return [hasCruise, 'highlight'];
+        }
+        function onDaySelect(dt, $scope){
+            dt = new Date(dt);
+			$scope.cruiseTimes = $scope.datesAndTimes[dt.mmddyyyy()];
+			$scope.cruiseTime = $scope.cruiseTimes[0].time;
+			$scope.$digest();
+        }
+      });
+
+
+
+
+
+
+    
 </script>
 <?php endif; ?>

@@ -42,6 +42,7 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
         if (!$this->_formKeyValidator->validate($this->getRequest())) {
             return $this->resultRedirectFactory->create()->setPath('*/*/');
         }
+        
 
         $params = $this->getRequest()->getParams();
         try {
@@ -65,15 +66,18 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
                         {
                             $id = $o->getId();
                             $params['options'][$id] = $params['cruise_date'];
+                            $x = 9;
                         }
                         //$o.setValue('2:00');
                         $x = 5;
                     }
+                    $y = 10;
                     $productParams = $params;
                     $productParams['qty'] = $productQuantity;
                     $productParams['product'] = $productId;
-                    $james = true;
-                    $this->cart->addProduct($product, $productParams);
+                    if($productQuantity > 0){
+                        $this->cart->addProduct($product, $productParams);
+                    }
                 }
             }
             else{
