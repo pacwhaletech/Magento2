@@ -1,7 +1,18 @@
 var/cache/*/*
 var/page_cache/*/*
 var/log/*
-var/cache/mage--0/mage---9d3_DB_PDO_MYSQL_DDL_CATALOG_PRODUCT_ENTITY_INT_1
+var/cache/mage--0/
+var/report/*
+pub/media/catalog/product/cache/*/*/*/*/*/*/*/*/*
+pub/media/catalog/product/cache/*/*/*/*/*/*/*/*
+pub/media/catalog/product/cache/*/*/*/*/*/*/*
+pub/media/catalog/product/cache/*/*/*/*/*/*
+pub/media/catalog/product/cache/*/*/*/*
+pub/media/catalog/product/cache/*/*/*
+pub/media/catalog/product/cache/*/*
+pub/media/catalog/product/cache/*
+
+mage---9d3_DB_PDO_MYSQL_DDL_CATALOG_PRODUCT_ENTITY_INT_1
 
 var/cache/mage--0/mage---9d3_EAV_ENTITY_ATTRIBUTES_CODES3_1_3
 
