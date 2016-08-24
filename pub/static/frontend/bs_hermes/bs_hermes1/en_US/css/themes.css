@@ -118,7 +118,10 @@ a.ui-state-default.ui-state-hover{
 }
 
 
-
+.custommenu.navigation li.level0.fullwidth > .submenu {
+    padding: 0px 30px;
+    font-weight: normal;
+}
 
 
 
