@@ -46,3 +46,80 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .product.data.items > .data.item.title:first-child{
 	margin-left: 43% !important;
 }
+
+.pwf-hover-block:hover .pwf-banner:before{
+	opacity: 0.4;
+}
+
+.pwf-hover-block .pwf-banner:before{
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background-color: #56bcbc;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	transition: all .2s;
+	z-index: 1;
+}
+
+.pwf-banner-text{
+	position:absolute;
+	top:50%;
+	text-align:center;
+	width:100%;
+	z-index:2;
+	display:none;
+	padding:15px 35px;
+	font-size:18px;
+	background-color:rgba(256,256,256,0.5);
+	height:50%;
+	color:rgb(51, 80, 85);
+}
+
+.pwf-banner-text h3{
+	font-size:30px;
+}
+
+.pwf-hover-block:hover .pwf-banner-text{
+	display:block;
+}
+
+.banner-left-top.static-banner a:before{
+	background-color: #ffa305;
+}
+
+.static-banner a:before{
+	background-color: #fff;
+}
+
+.banner-left-top.static-banner a:before {
+    opacity: 0.3;
+    filter: alpha(opacity=10);
+    visibility: visible;
+	background-color: #ffa305;
+}
+
+.banner-left-top.static-banner:hover a:before {
+    opacity: 0;
+    filter: alpha(opacity=0);
+    visibility: hidden;
+}
+
+.highlight a.ui-state-default {
+    background-color: #d2e6f1;
+}
+
+a.ui-state-default.ui-state-hover{
+	background-color:#fbf2c4 !important;
+	border-color:red;
+}
+
+
+
+
+
+
+
