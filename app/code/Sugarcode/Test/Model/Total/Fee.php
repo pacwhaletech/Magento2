@@ -22,7 +22,8 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     {
         $this->quoteValidator = $quoteValidator;
     }
-  public function collect(
+    
+    public function collect(
         \Magento\Quote\Model\Quote $quote,
         \Magento\Quote\Api\Data\ShippingAssignmentInterface $shippingAssignment,
         \Magento\Quote\Model\Quote\Address\Total $total
@@ -31,7 +32,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 
 
         $exist_amount = 0; //$quote->getFee(); 
-        $fee = 100; //Excellence_Fee_Model_Fee::getFee();
+        $fee = -$this->getDiscountAmount($quote, $total); //-100; //Excellence_Fee_Model_Fee::getFee();
         $balance = $fee - $exist_amount;
 
         $total->setTotalAmount('fee', $balance);
@@ -75,11 +76,16 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      */
     public function fetch(\Magento\Quote\Model\Quote $quote, \Magento\Quote\Model\Quote\Address\Total $total)
     {
+        $discount = $this->getDiscountAmount($quote, $total);
         return [
             'code' => 'fee',
-            'title' => 'Fee',
-            'value' => 100
+            'title' => 'Member Discount',
+            'value' => $discount
         ];
+    }
+    
+    public function getDiscountAmount($quote, $total){
+        return -100;
     }
 
     /**
@@ -89,6 +95,6 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      */
     public function getLabel()
     {
-        return __('Fee');
+        return __('Member Discount');
     }
 }
