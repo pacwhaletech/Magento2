@@ -112,6 +112,7 @@ return array (
     'Rokanthemes_QuickView' => 1,
     'Rokanthemes_RokanBase' => 1,
     'Rokanthemes_SlideBanner' => 1,
-    'Rokanthemes_Themeoption' => 1
+    'Rokanthemes_Themeoption' => 1,
+    'Sugarcode_Test' => 1,
   ),
 );
