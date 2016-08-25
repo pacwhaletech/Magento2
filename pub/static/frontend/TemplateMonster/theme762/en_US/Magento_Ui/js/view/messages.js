@@ -1,1 +1,0 @@
-/Users/james/Documents/web/m/vendor/magento/module-ui/view/frontend/web/js/view/messages.js
