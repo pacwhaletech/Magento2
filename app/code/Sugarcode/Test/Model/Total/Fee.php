@@ -17,10 +17,12 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      * @return $this
      */
     protected $quoteValidator = null; 
+    protected $session;
 
-    public function __construct(\Magento\Quote\Model\QuoteValidator $quoteValidator)
+    public function __construct(\Magento\Quote\Model\QuoteValidator $quoteValidator, \Magento\Customer\Model\Session $session)
     {
         $this->quoteValidator = $quoteValidator;
+        $this->session = $session;
     }
     
     public function collect(
@@ -32,7 +34,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 
 
         $exist_amount = 0; //$quote->getFee(); 
-        $fee = -$this->getDiscountAmount($quote, $total); //-100; //Excellence_Fee_Model_Fee::getFee();
+        $fee = $this->getDiscountAmount($quote, $total); //-100; //Excellence_Fee_Model_Fee::getFee();
         $balance = $fee - $exist_amount;
 
         $total->setTotalAmount('fee', $balance);
@@ -85,7 +87,24 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     }
     
     public function getDiscountAmount($quote, $total){
-        return -100;
+        $numTicketDiscounts = 0;
+        $discountRate = 1;
+        $discount = 0;
+        $loggedIn = $this->session->isLoggedIn();
+        if($loggedIn){
+            $customer = $this->session->getCustomer();
+            $groupId = $customer->getData('group_id');
+            if(true){ //if($groupId == 1){
+                $numTicketDiscounts = 1;
+                $discountRate = .2; //(1 /.9) * .8  multiply the total by this amount
+                $subtotal = $quote->getData()['subtotal'];
+                $discount = $discountRate * ($subtotal / 0.9) * -1;
+            }
+        }
+        else{
+            $x = 0;
+        }
+        return $discount;
     }
 
     /**

@@ -57,7 +57,7 @@
     				$result = krsort($sorted_related_products);
     				$x=9;				
 				?>
-				
+				<input type="hidden" name="parent_id" value="<?php echo $_product->getId(); ?>"/>
                 <?php foreach($sorted_related_products as $sorted_related_product): ?>
                     <?php 
                         $product_id = $sorted_related_product->getId();
