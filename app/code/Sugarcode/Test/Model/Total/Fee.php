@@ -87,7 +87,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     }
     
     public function getDiscountAmount($quote, $total){
-        $numTicketDiscounts = 0;
+        $numTicketDiscounts = $this->getEligibleDiscountedSeats($quote, $total);
         $discountRate = 1;
         $discount = 0;
         $loggedIn = $this->session->isLoggedIn();
@@ -95,16 +95,81 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
             $customer = $this->session->getCustomer();
             $groupId = $customer->getData('group_id');
             if(true){ //if($groupId == 1){
-                $numTicketDiscounts = 1;
+                // $numTicketDiscounts = 1;
                 $discountRate = .2; //(1 /.9) * .8  multiply the total by this amount
-                $subtotal = $quote->getData()['subtotal'];
-                $discount = $discountRate * ($subtotal / 0.9) * -1;
+                // $subtotal = $quote->getData()['subtotal'];
+                $discount = $discountRate * ($this->getEligibleTotal($quote, $total) / 0.9) * -1;
             }
         }
         else{
             $x = 0;
         }
         return $discount;
+    }
+    
+    public function getEligibleDiscountedSeats($quote, $total){
+        // if logged in and groupId
+        $seats = 0;
+        if($this->session->isLoggedIn()){
+            $customer = $this->session->getCustomer();
+            $groupId = $customer->getData('group_id');
+            switch ($groupId) {
+                case 4:
+                    $seats = 5;
+                    break;
+                case 2:
+                    $seats = 0;
+                    break;
+                default:
+                    $seats = 0;
+            }
+        }
+        return $seats;
+    }
+    
+    public function getCruiseTickets($quote, $total){
+        $cruises = [];
+        $items = $quote->getAllVisibleItems();
+        foreach($items as $item){
+            $itemId = $item->getProductId();
+            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+            $_product = $objectManager->get('Magento\Catalog\Model\Product')->load($itemId);
+
+            $attributeSetId = $_product->getAttributeSetId();
+            if($attributeSetId != 'hello'){ // its a cruiseTicket
+                 $sku = $_product->getSku();
+                 $sku = explode('-', $sku)[0];
+                 if(!isset($cruises[$sku])){
+                     $cruises[$sku] = [];
+                 }
+                 $price = $_product->getPrice();
+                 $qty = $item->getQty();
+                 for($i = 0; $i < $qty; $i++){
+                     $cruises[$sku][] = $price;
+                     rsort($cruises[$sku]);
+                     $x = 9;
+                 }
+            }
+        }
+        return $cruises;
+    }   
+    public function getEligibleTotal($quote, $total){
+         $totalKeepers = [];
+         $totalDiscountable = 0;
+         $ticketsEligible = $this->getEligibleDiscountedSeats($quote, $total);
+         if($ticketsEligible > 0){
+            $allTix = $this->getcruisetickets($quote, $total);
+            foreach($allTix as $skutix){
+                $numTixToGet = (count($skutix) < $ticketsEligible) ? count($skutix) : $ticketsEligible; // if there are more elibile than exist set to num exist
+                $skuKeepers = array_slice($skutix, 0, $numTixToGet);
+                $totalKeepers = array_merge($totalKeepers, $skuKeepers);
+            }
+            foreach($totalKeepers as $keeperPrice){
+                $totalDiscountable += $keeperPrice;
+            }
+         }
+        return $totalDiscountable;
+        //return 50;
     }
 
     /**
