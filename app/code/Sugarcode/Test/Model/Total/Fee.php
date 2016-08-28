@@ -104,8 +104,7 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     }
     
     public function getEligibleDiscountedSeats($quote, $total){
-        // if logged in and groupId
-        $seats = 2;
+        $seats = 0;
         if($this->session->isLoggedIn()){
             $customer = $this->session->getCustomer();
             $groupId = $customer->getData('group_id');
@@ -124,16 +123,17 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     }
     
     public function getCruiseDateAndTime($_product){
-        $dateAndTime = ['date' => '09-20-2016', 'time' => '09:00'];
-        
+        $dateAndTime = ['date' => '', 'time' => ''];
         $customOptions = $_product->getCustomOptions();
         $options = $_product->getOptions();
-        
-        $optionIds = $customOptions['option_ids']->getValue();
-        $ids = explode(',', $optionIds);
-        
-        $time = $customOptions['option_' . $ids[0]]->getValue();
-        $date = $customOptions['option_' . $ids[1]]->getValue();
+        $optionIds = [];
+        foreach($options as $option){ 
+            $title = $option->getTitle();
+            $id = $option->getId();
+            $optionIds[$title] = $id;
+        }
+        $time = $customOptions['option_' . $optionIds['Cruise Time']]->getValue();
+        $date = $customOptions['option_' . $optionIds['Cruise Date']]->getValue();
         $dateAndTime['date'] = $date;
         $dateAndTime['time'] = $time;
         return $dateAndTime;
