@@ -87,29 +87,25 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     }
     
     public function getDiscountAmount($quote, $total){
-        $numTicketDiscounts = $this->getEligibleDiscountedSeats($quote, $total);
-        $discountRate = 1;
+        $discountRate = 0;
         $discount = 0;
         $loggedIn = $this->session->isLoggedIn();
         if($loggedIn){
             $customer = $this->session->getCustomer();
             $groupId = $customer->getData('group_id');
             if(true){ //if($groupId == 1){
-                // $numTicketDiscounts = 1;
-                $discountRate = .2; //(1 /.9) * .8  multiply the total by this amount
-                // $subtotal = $quote->getData()['subtotal'];
-                $discount = $discountRate * ($this->getEligibleTotal($quote, $total) / 0.9) * -1;
+                $discountRate = .2;
+
             }
         }
-        else{
-            $x = 0;
-        }
+        $discountRate = .2;
+        $discount = $discountRate * ($this->getEligibleTotal($quote, $total) / 0.9) * -1;
         return $discount;
     }
     
     public function getEligibleDiscountedSeats($quote, $total){
         // if logged in and groupId
-        $seats = 0;
+        $seats = 2;
         if($this->session->isLoggedIn()){
             $customer = $this->session->getCustomer();
             $groupId = $customer->getData('group_id');
@@ -127,35 +123,56 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
         return $seats;
     }
     
+    public function getCruiseDateAndTime($_product){
+        $dateAndTime = ['date' => '09-20-2016', 'time' => '09:00'];
+        
+        $customOptions = $_product->getCustomOptions();
+        $options = $_product->getOptions();
+        
+        $optionIds = $customOptions['option_ids']->getValue();
+        $ids = explode(',', $optionIds);
+        
+        $time = $customOptions['option_' . $ids[0]]->getValue();
+        $date = $customOptions['option_' . $ids[1]]->getValue();
+        $dateAndTime['date'] = $date;
+        $dateAndTime['time'] = $time;
+        return $dateAndTime;
+    }
+    
     public function getCruiseTickets($quote, $total){
         $cruises = [];
         $items = $quote->getAllVisibleItems();
         foreach($items as $item){
             $itemId = $item->getProductId();
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-            $_product = $objectManager->get('Magento\Catalog\Model\Product')->load($itemId);
-
+            $_product = $item->getProduct();
             $attributeSetId = $_product->getAttributeSetId();
+            
+            
             if($attributeSetId != 'hello'){ // its a cruiseTicket
+                 $dateAndTime = $this->getCruiseDateAndTime($_product);
                  $sku = $_product->getSku();
                  $sku = explode('-', $sku)[0];
-                 if(!isset($cruises[$sku])){
-                     $cruises[$sku] = [];
+                 $fullSku = $sku .'|'. $dateAndTime['date'] .'|'. $dateAndTime['time'];
+                 if(!isset($cruises[$fullSku])){
+                     $cruises[$fullSku] = [];
                  }
                  $price = $_product->getPrice();
                  $qty = $item->getQty();
                  for($i = 0; $i < $qty; $i++){
-                     $cruises[$sku][] = $price;
-                     rsort($cruises[$sku]);
+                     $cruises[$fullSku][] = $price;
+                     rsort($cruises[$fullSku]);
                      $x = 9;
                  }
+            }
+            else{
+                $x = 0;
             }
         }
         return $cruises;
     }   
     public function getEligibleTotal($quote, $total){
          $totalKeepers = [];
-         $totalDiscountable = 0;
+         $eligibleTotal = 0;
          $ticketsEligible = $this->getEligibleDiscountedSeats($quote, $total);
          if($ticketsEligible > 0){
             $allTix = $this->getcruisetickets($quote, $total);
@@ -165,10 +182,10 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
                 $totalKeepers = array_merge($totalKeepers, $skuKeepers);
             }
             foreach($totalKeepers as $keeperPrice){
-                $totalDiscountable += $keeperPrice;
+                $eligibleTotal += $keeperPrice;
             }
          }
-        return $totalDiscountable;
+        return $eligibleTotal;
         //return 50;
     }
 
