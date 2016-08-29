@@ -1,1 +1,0 @@
-/Users/james/Documents/web/m/app/code/Rokanthemes/QuickView/view/frontend/web/js/cloud-zoom.js

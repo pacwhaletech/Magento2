@@ -1,1 +1,0 @@
-/Users/james/Documents/web/m/vendor/magento/module-grouped-product/view/adminhtml/web/js/grouped-product.js

@@ -1,1 +1,0 @@
-/Users/james/Documents/web/m/vendor/magento/module-braintree/view/frontend/web/js/cc-data.js

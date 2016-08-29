@@ -1,1 +1,0 @@
-/Users/james/Documents/web/m/app/code/Rokanthemes/RokanBase/view/frontend/web/js/owl_carousel.js
