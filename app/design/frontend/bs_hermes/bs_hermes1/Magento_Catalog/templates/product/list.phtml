@@ -215,6 +215,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
 							<?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
 							<?php if($isCruise){ echo ' per adult';}; ?>
    
+   							<?php if(isset($_product->getAttributes()['harbor'])) : ?>
                             <div>Harbor: 
 
                                 <?php 
@@ -222,6 +223,7 @@ $_helper = $this->helper('Magento\Catalog\Helper\Output');
                                 ?>
                                 
                             </div>
+							<?php endif?>
 							
 							<div class="addto-links-icons visible-onhover">
 								<div class="action-inner product-item-actions"<?php echo strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>

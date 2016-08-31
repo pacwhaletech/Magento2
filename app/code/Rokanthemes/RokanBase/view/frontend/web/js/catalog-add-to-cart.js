@@ -56,8 +56,9 @@
         },
 
         ajaxSubmit: function(form) {
-        	//form.submit();
-        	//return;
+        	console.log('hi');
+        	form.submit();
+        	return;
 			var self = this;
 			$(self.options.minicartSelector).trigger('contentLoading');
 			self.disableAddToCartButton(form);

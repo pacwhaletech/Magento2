@@ -4,7 +4,10 @@
  * See COPYING.txt for license details.
  */
 namespace Sugarcode\Test\Model\Total;
-
+//$_product->getAttributes()['harbor']->getFrontend()->getValue($_product)
+//$membershipProduct->getAttributes()['member_discounted_seats']->getFrontEnd()->getValue($membershipProduct)
+//                 // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+                // $loadedProduct = $objectManager->get('Magento\Catalog\Model\Product')->load($id);
 
 class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 {
@@ -18,11 +21,13 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
      */
     protected $quoteValidator = null; 
     protected $session;
+    protected $productRepository;
 
-    public function __construct(\Magento\Quote\Model\QuoteValidator $quoteValidator, \Magento\Customer\Model\Session $session)
+    public function __construct(\Magento\Quote\Model\QuoteValidator $quoteValidator, \Magento\Customer\Model\Session $session, \Magento\Catalog\Model\ProductRepository $productRepository)
     {
         $this->quoteValidator = $quoteValidator;
         $this->session = $session;
+        $this->productRepository = $productRepository;
     }
     
     public function collect(
@@ -87,107 +92,120 @@ class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
     }
     
     public function getDiscountAmount($quote, $total){
-        $discountRate = 0;
-        $discount = 0;
-        $loggedIn = $this->session->isLoggedIn();
-        if($loggedIn){
-            $customer = $this->session->getCustomer();
-            $groupId = $customer->getData('group_id');
-            if(true){ //if($groupId == 1){
-                $discountRate = .2;
-
-            }
+        $info = $this->getEligibleInfo($quote);
+        if(!$info['eligible']){
+            return 0;
         }
-        $discountRate = .2;
-        $discount = $discountRate * ($this->getEligibleTotal($quote, $total) / 0.9) * -1;
+        else{
+            $eligibleTotal = $this->getEligibleTotal($info['discounted_seats'], $quote);
+            $discount = ($info['rate'] - 0.1) * ( $eligibleTotal/ 0.9) * -1;
+        }
         return $discount;
     }
     
-    public function getEligibleDiscountedSeats($quote, $total){
-        $seats = 0;
+    public function getEligibleInfo($quote){
+        $data = ['eligible'=>false, 'rate'=>0, 'discounted_seats'=>0];
         if($this->session->isLoggedIn()){
+            $sku_keys = ['4'=>'M-PWF-Ohana']; // lookup to find skus based on customer groupId
             $customer = $this->session->getCustomer();
             $groupId = $customer->getData('group_id');
-            switch ($groupId) {
-                case 4:
-                    $seats = 5;
-                    break;
-                case 2:
-                    $seats = 0;
-                    break;
-                default:
-                    $seats = 0;
+            $sku = $sku_keys[$groupId];
+            $loadedMembershipProduct = $this->productRepository->get($sku);
+            $data['eligible'] = true;
+            $data['discounted_seats'] = $loadedMembershipProduct->getData('member_discounted_seats');
+            $data['rate'] = $loadedMembershipProduct->getData('member_discount_rate');
+        }
+        if(!$data['eligible']){ // see if there's a membership in the cart
+            $membershipProduct = $this->getMembershipFromCart($quote);  // $membership is a product object
+            if($membershipProduct){
+                $sku = $membershipProduct->getSku();
+                $loadedProduct = $this->productRepository->get($sku);
+                $data['eligible'] = true;
+                $data['discounted_seats'] = $loadedProduct->getData('member_discounted_seats');
+                $data['rate'] = $loadedProduct->getData('member_discount_rate');
             }
         }
-        return $seats;
+        return $data;
+    } 
+
+    public function getMembershipFromCart($quote){
+        // loop through items in cart, if we find one that's a membership, we return it, otherwise return false
+        $items = $quote->getAllVisibleItems();
+        foreach($items as $item){
+            $_product = $item->getProduct();
+            $attributeSetId = $_product->getAttributeSetId();
+            if($attributeSetId == '12'){ // its a membership
+                return $_product;
+            }
+        }
+        return false;
     }
-    
+
+    public function getEligibleTotal($discountedSeats, $quote){
+        $totalKeepers = [];
+        $eligibleTotal = 0;
+        if($discountedSeats > 0){
+            $allTix = $this->getcruisetickets($quote);
+            foreach($allTix as $skutix){ // tickets for a specific sku-date-time
+                $numTixToGet = (count($skutix) < $discountedSeats) ? count($skutix) : $discountedSeats;
+                // if there are more elibile than exist set to num exist
+                $skuKeepers = array_slice($skutix, 0, $numTixToGet);
+                $totalKeepers = array_merge($totalKeepers, $skuKeepers); // add them to the master list of tickets that will get discounts
+            }
+            foreach($totalKeepers as $keeperPrice){
+                $eligibleTotal += $keeperPrice; // add the total price for all the tickets getting discounts - the eligible total
+            }
+        }
+        return $eligibleTotal;
+    }
+
+    public function getCruiseTickets($quote){
+        $cruises = [];
+        $items = $quote->getAllVisibleItems();
+        foreach($items as $item){
+            $_product = $item->getProduct();
+            $attributeSetId = $_product->getAttributeSetId();
+            if($attributeSetId == '9'){ // its a cruiseTicket
+                $dateAndTime = $this->getCruiseDateAndTime($_product);
+                $sku = $_product->getSku();
+                $stub_sku = explode('-', $sku)[0];
+                $fullSku = $stub_sku .'|'. $dateAndTime['date'] .'|'. $dateAndTime['time'];
+                // build full identifier sku stub + | + date + | + time
+                if(!isset($cruises[$fullSku])){
+                    $cruises[$fullSku] = [];
+                }
+                $price = $_product->getPrice();
+                $qty = $item->getQty();
+                for($i = 0; $i < $qty; $i++){
+                    $cruises[$fullSku][] = $price; // put the price of the product in the full sku array
+                    rsort($cruises[$fullSku]); // bring the most expensive ones to the top
+                }
+            }
+        }
+        return $cruises;
+    }
+
     public function getCruiseDateAndTime($_product){
+        // return date and time from custom options of product
         $dateAndTime = ['date' => '', 'time' => ''];
         $customOptions = $_product->getCustomOptions();
         $options = $_product->getOptions();
+        // make an key value array of the titles and ids for the custom options
         $optionIds = [];
-        foreach($options as $option){ 
+        foreach($options as $option){
             $title = $option->getTitle();
             $id = $option->getId();
             $optionIds[$title] = $id;
         }
+        // get values in custom options, using id provided in optionIds, set key of custom option to 'option_' + value
         $time = $customOptions['option_' . $optionIds['Cruise Time']]->getValue();
         $date = $customOptions['option_' . $optionIds['Cruise Date']]->getValue();
+        // set the values and return them
         $dateAndTime['date'] = $date;
         $dateAndTime['time'] = $time;
         return $dateAndTime;
     }
-    
-    public function getCruiseTickets($quote, $total){
-        $cruises = [];
-        $items = $quote->getAllVisibleItems();
-        foreach($items as $item){
-            $itemId = $item->getProductId();
-            $_product = $item->getProduct();
-            $attributeSetId = $_product->getAttributeSetId();
-            
-            
-            if($attributeSetId != 'hello'){ // its a cruiseTicket
-                 $dateAndTime = $this->getCruiseDateAndTime($_product);
-                 $sku = $_product->getSku();
-                 $sku = explode('-', $sku)[0];
-                 $fullSku = $sku .'|'. $dateAndTime['date'] .'|'. $dateAndTime['time'];
-                 if(!isset($cruises[$fullSku])){
-                     $cruises[$fullSku] = [];
-                 }
-                 $price = $_product->getPrice();
-                 $qty = $item->getQty();
-                 for($i = 0; $i < $qty; $i++){
-                     $cruises[$fullSku][] = $price;
-                     rsort($cruises[$fullSku]);
-                     $x = 9;
-                 }
-            }
-            else{
-                $x = 0;
-            }
-        }
-        return $cruises;
-    }   
-    public function getEligibleTotal($quote, $total){
-         $totalKeepers = [];
-         $eligibleTotal = 0;
-         $ticketsEligible = $this->getEligibleDiscountedSeats($quote, $total);
-         if($ticketsEligible > 0){
-            $allTix = $this->getcruisetickets($quote, $total);
-            foreach($allTix as $skutix){
-                $numTixToGet = (count($skutix) < $ticketsEligible) ? count($skutix) : $ticketsEligible; // if there are more elibile than exist set to num exist
-                $skuKeepers = array_slice($skutix, 0, $numTixToGet);
-                $totalKeepers = array_merge($totalKeepers, $skuKeepers);
-            }
-            foreach($totalKeepers as $keeperPrice){
-                $eligibleTotal += $keeperPrice;
-            }
-         }
-        return $eligibleTotal;
-        //return 50;
-    }
+
 
     /**
      * Get Subtotal label

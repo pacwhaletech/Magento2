@@ -46,7 +46,7 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
 
         $params = $this->getRequest()->getParams();
         try {
-            if($params['is_cruise']){
+            if(isset($params['is_cruise'])){
                 // for items in related
                 // create a new product and add to cart
                 $productIds = $params['ticket_id'];
@@ -97,7 +97,7 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
                 if (!$product) {
                    return $this->goBack();
                 }               
-                $this->cart->addProduct($product, $productParams);
+                $this->cart->addProduct($product, $params);
             }
 
             $this->cart->save();

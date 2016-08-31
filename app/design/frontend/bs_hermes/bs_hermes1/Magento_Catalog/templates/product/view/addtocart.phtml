@@ -11,87 +11,121 @@
 <?php 
     $_product = $block->getProduct(); 
     $tour_code = $_product->getData('tour_code'); 
+    $isCruise = $_product->getAttributeSetId() == '10';
 ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()): ?>
-<div class="box-tocart" ng-app="ticketSelectorApp">
-    <div class="fieldset" ng-controller="timeAndDate">
-        <?php if ($block->shouldRenderQuantity()): ?>
+	<?php if($isCruise) : ?>
+        <div class="box-tocart" ng-app="ticketSelectorApp">
+            <div class="fieldset" ng-controller="timeAndDate">
+                <?php if ($block->shouldRenderQuantity()): ?>
+                
+                <input type="hidden" name="is_cruise" value="1"/>
+                <input type="hidden" name="tour_code" id="tour_code" value="<?php echo $tour_code;?>"/>
+                <h2>Select Date and Time:</h2>
+                <div class="row cruise-date-time-controls">
+                	<div class="col-md-3">
+                        <div class="field">
+                            <label class="label" for="cruise_date"><span><?php /* @escapeNotVerified */ echo __('Cruise Date') ?></span></label>
+                            <div class="control">
+                                <!--  <input type="text" name="cruise_date" id="cruise_date" value="10/1/2016" style="width:100px"><br/> -->
+                                <input class="datepicker" name="cruise_date" id="cruise_date" required class="form-control" type="text" id="pdp-date" />
+                            </div>
+                        </div>	
+                	</div>
+                	<div class="col-md-9">
+                        <div class="field">
+                            <label class="label" for="cruise_time"><span><?php /* @escapeNotVerified */ echo __('Cruise Time') ?></span></label>
+                            <div class="control">
+                                <select name="cruise_time" id="cruise_time" ng-disabled="hasNoTimes()" ng-options="cruiseTime.time for cruiseTime in cruiseTimes track by cruiseTime.time" ng-model="cruiseTime" style="width:100px"></select>
+                            </div>
+                        </div>
+                	</div>
+                </div>
         
-        <input type="hidden" name="is_cruise" value="1"/>
-        <input type="hidden" name="tour_code" id="tour_code" value="<?php echo $tour_code;?>"/>
-        <h2>Select Date and Time:</h2>
-        <div class="row cruise-date-time-controls">
-        	<div class="col-md-3">
-                <div class="field">
-                    <label class="label" for="cruise_date"><span><?php /* @escapeNotVerified */ echo __('Cruise Date') ?></span></label>
-                    <div class="control">
-                        <!--  <input type="text" name="cruise_date" id="cruise_date" value="10/1/2016" style="width:100px"><br/> -->
-                        <input class="datepicker" name="cruise_date" id="cruise_date" required class="form-control" type="text" id="pdp-date" />
-                    </div>
-                </div>	
-        	</div>
-        	<div class="col-md-9">
-                <div class="field">
-                    <label class="label" for="cruise_time"><span><?php /* @escapeNotVerified */ echo __('Cruise Time') ?></span></label>
-                    <div class="control">
-                        <select name="cruise_time" id="cruise_time" ng-disabled="hasNoTimes()" ng-options="cruiseTime.time for cruiseTime in cruiseTimes track by cruiseTime.time" ng-model="cruiseTime" style="width:100px"></select>
+        
+                <div>
+                    <div class="control cruise-tickets">
+                    	<h2>Choose Tickets:</h2>
+        				<?php 
+        				    $related_products = $_product->getRelatedProductIds(); 
+        				    $object_manager = \Magento\Framework\App\ObjectManager::getInstance();
+        				    $sorted_related_products = [];
+            				foreach($related_products as $pid){
+            					$related_product = $object_manager->create('Magento\Catalog\Model\Product')->load($pid);
+            					$age_limit = $related_product->getData('age_limit');
+            					$sorted_related_products[$age_limit] = $related_product;
+            				}
+            				$result = krsort($sorted_related_products);
+            				$x=9;				
+        				?>
+        				<input type="hidden" name="parent_id" value="<?php echo $_product->getId(); ?>"/>
+                        <?php foreach($sorted_related_products as $sorted_related_product): ?>
+                            <?php 
+                                $product_id = $sorted_related_product->getId();
+                                $product_name = $sorted_related_product->getName();
+                                $product_price = $sorted_related_product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount();
+                            ?>
+        					<input type="hidden" name="ticket_id[]" value="<?php echo $product_id; ?>"/>
+                            <div class="cruise-ticket">
+                            	<label class="label cruise-ticket-label" for="">
+                            		<span>
+                            			<?php echo $product_name?> : $<?php echo $product_price?>
+                            		</span>
+                            	</label>
+                            	<input type="text" name="ticket_qty[]" value="0" style="width:40px"/>
+                            </div>
+        				<?php endforeach; ?>
+        				
+        				
+        				   	
                     </div>
                 </div>
-        	</div>
-        </div>
-
-
-        <div>
-            <div class="control cruise-tickets">
-            	<h2>Choose Tickets:</h2>
-				<?php 
-				    $related_products = $_product->getRelatedProductIds(); 
-				    $object_manager = \Magento\Framework\App\ObjectManager::getInstance();
-				    $sorted_related_products = [];
-    				foreach($related_products as $pid){
-    					$related_product = $object_manager->create('Magento\Catalog\Model\Product')->load($pid);
-    					$age_limit = $related_product->getData('age_limit');
-    					$sorted_related_products[$age_limit] = $related_product;
-    				}
-    				$result = krsort($sorted_related_products);
-    				$x=9;				
-				?>
-				<input type="hidden" name="parent_id" value="<?php echo $_product->getId(); ?>"/>
-                <?php foreach($sorted_related_products as $sorted_related_product): ?>
-                    <?php 
-                        $product_id = $sorted_related_product->getId();
-                        $product_name = $sorted_related_product->getName();
-                        $product_price = $sorted_related_product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount();
-                    ?>
-					<input type="hidden" name="ticket_id[]" value="<?php echo $product_id; ?>"/>
-                    <div class="cruise-ticket">
-                    	<label class="label cruise-ticket-label" for="">
-                    		<span>
-                    			<?php echo $product_name?> : $<?php echo $product_price?>
-                    		</span>
-                    	</label>
-                    	<input type="text" name="ticket_qty[]" value="0" style="width:40px"/>
-                    </div>
-				<?php endforeach; ?>
-				
-				
-				   	
+                <?php endif; ?>
+                <div class="actions">
+                    <button type="submit"
+                            title="<?php /* @escapeNotVerified */ echo $buttonTitle ?>"
+                            class="action primary tocart"
+                            id="product-addtocart-button">
+                        <span><?php /* @escapeNotVerified */ echo $buttonTitle ?></span>
+                    </button>
+                    <?php echo $block->getChildHtml('', true) ?>
+                </div>
             </div>
         </div>
-        <?php endif; ?>
-        <div class="actions">
-            <button type="submit"
-                    title="<?php /* @escapeNotVerified */ echo $buttonTitle ?>"
-                    class="action primary tocart"
-                    id="product-addtocart-button">
-                <span><?php /* @escapeNotVerified */ echo $buttonTitle ?></span>
-            </button>
-            <?php echo $block->getChildHtml('', true) ?>
+	<?php else : ?>
+        <div class="box-tocart">
+            <div class="fieldset">
+                <?php if ($block->shouldRenderQuantity()): ?>
+                <div class="field qty">
+                    <label class="label" for="qty"><span><?php /* @escapeNotVerified */ echo __('Qantity :') ?></span></label>
+                    <div class="control">
+                        <input type="number"
+                               name="qty"
+                               id="qty"
+                               maxlength="12"
+                               value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>"
+                               title="<?php /* @escapeNotVerified */ echo __('Qantity') ?>" class="input-text qty"
+                               data-validate="<?php echo $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
+                               />
+                    </div>
+                </div>
+                <?php endif; ?>
+                <div class="actions">
+                    <button type="submit"
+                            title="<?php /* @escapeNotVerified */ echo $buttonTitle ?>"
+                            class="action primary tocart"
+                            id="product-addtocart-button">
+                        <span><?php /* @escapeNotVerified */ echo $buttonTitle ?></span>
+                    </button>
+                    <?php echo $block->getChildHtml('', true) ?>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+
+	<?php endif; ?>
 <?php endif; ?>
+
 <?php if ($block->isRedirectToCartEnabled()) : ?>
 <script type="text/x-magento-init">
     {
@@ -103,9 +137,11 @@
     }
 </script>
 <?php else : ?>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.min.js"></script>
 
 <script>
+<?php if($isCruise) : ?>
 	var _$;
 	Date.prototype.mmddyyyy = function() {
 		  var mm = this.getMonth() + 1; // getMonth() is zero-based
@@ -114,7 +150,7 @@
 		  if(dd < 10){dd = "0" + dd}
 		  return [mm, dd, this.getFullYear()].join('/'); // padding
 		};
-
+<?php endif; ?>
 		
     require([
         'jquery',
@@ -123,7 +159,6 @@
         'Magento_Catalog/js/catalog-add-to-cart'
     ], function ($) {
         'use strict';
-		_$ = $;
         $('#product_addtocart_form').mage('validation', {
             radioCheckboxClosest: '.nested',
             submitHandler: function (form) {
@@ -136,12 +171,14 @@
                 return false;
             }
         });
-
+        <?php if($isCruise) : ?>
+		_$ = $;
         $('body').addClass("category-cruises");
 
         var tour_code = $('#tour_code').val();
+        <?php endif; ?>
     });
-
+    <?php if($isCruise) : ?>
     var t = angular.module('ticketSelectorApp',[]);
 
     // controller
@@ -192,7 +229,7 @@
 			$scope.$digest();
         }
       });
-
+<?php endif; ?>
 
 
 
