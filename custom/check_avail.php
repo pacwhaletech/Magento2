@@ -26,7 +26,7 @@ else {
 
 
 $date = date("Y-m-d");
-$tourcode = 16; //trim($_REQUEST['tourcode']);
+$tourcode = trim($_REQUEST['tourcode']);
 $event_URI = $xml_server_url."als_get_events.cgi?seats=1&date=".$date."&days=40&tour=".$tourcode;
 
 $alpro = new AlPro();
