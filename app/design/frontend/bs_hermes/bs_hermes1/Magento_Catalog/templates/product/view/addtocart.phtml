@@ -24,7 +24,7 @@
             <div class="fieldset" ng-controller="timeAndDate">
                 <?php if ($block->shouldRenderQuantity()): ?>
                 <input type="hidden" name="is_cruise" value="1"/>
-                <h2>Select Date and Time:</h2>
+                <h2>1. Select Date and Time:</h2>
                 <div class="row cruise-date-time-controls">
                 	<div class="col-md-3">
                         <div class="field">
@@ -49,7 +49,7 @@
         	<div class="fieldset" ng-controller="<?php echo $controller_name; ?>">
                 <div>
                     <div class="control cruise-tickets">
-                    	<h2>Choose Tickets:</h2>
+                    	<h2>2. Choose Tickets:</h2>
         				<?php 
         				    $related_products = $_product->getRelatedProductIds(); 
         				    $object_manager = \Magento\Framework\App\ObjectManager::getInstance();
@@ -84,44 +84,60 @@
                 <?php if($has_meals) : ?>
                 <div>
                 	<div class="control cruise-meals">
-                		<h2>Choose Meals</h2>
+                		<h2>3. Choose Meals</h2>
                 		<h4>{{getMessage()}}</h4>
-                        <div class="cruise-ticket">
-                        	<label class="label cruise-ticket-label" for="">
-                        		<span>
-                        			Steak :
-                        		</span>
-                        	</label>
-                        	<input type="hidden" name="meal_id[]" value="0" style="width:40px" value="99"/>
-                        	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="steak"/>
-                        </div>
-                        <div class="cruise-ticket">
-                        	<label class="label cruise-ticket-label" for="">
-                        		<span>
-                        			Shrimp :
-                        		</span>
-                        	</label>
-                        	<input type="hidden" name="meal_id[]" value="0" style="width:40px" value="99"/>
-                        	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="shrimp"/>
-                        </div>
-                        <div class="cruise-ticket">
-                        	<label class="label cruise-ticket-label" for="">
-                        		<span>
-                        			Chicken :
-                        		</span>
-                        	</label>
-                        	<input type="hidden" name="meal_id[]" value="0" style="width:40px" value="99"/>
-                        	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="chicken"/>
-                        </div>
-                        <div class="cruise-ticket">
-                        	<label class="label cruise-ticket-label" for="">
-                        		<span>
-                        			Vegetarian :
-                        		</span>
-                        	</label>
-                        	<input type="hidden" name="meal_id[]" value="0" style="width:40px" value="99"/>
-                        	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="vegetarian"/>
-                        </div>
+                		<div class="row">
+                			<div class="col-md-4">
+                                <div class="cruise-ticket">
+                                	<label class="label cruise-ticket-label" for="">
+                                		<span>
+                                			Steak :
+                                		</span>
+                                	</label>
+                                	<input type="hidden" name="meal_id[]" value="36" style="width:40px" value="99"/>
+                                	<input type="hidden" name="meal_parent_cruise_name[]" value="<?php echo $_product->getSku()?>" style="width:40px" value="99"/>
+                                	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="steak"/>
+                                </div>
+                			
+                			</div>
+                			<div class="col-md-4">
+                                <div class="cruise-ticket">
+                                	<label class="label cruise-ticket-label" for="">
+                                		<span>
+                                			Shrimp :
+                                		</span>
+                                	</label>
+                                	<input type="hidden" name="meal_id[]" value="37" style="width:40px" value="99"/>
+                                	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="shrimp"/>
+                                </div>
+                			</div>
+                		</div>
+
+                		<div class="row">
+                			<div class="col-md-4">
+                                <div class="cruise-ticket">
+                                	<label class="label cruise-ticket-label" for="">
+                                		<span>
+                                			Chicken :
+                                		</span>
+                                	</label>
+                                	<input type="hidden" name="meal_id[]" value="38" style="width:40px" value="99"/>
+                                	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="chicken"/>
+                                </div>
+                			</div>
+                			<div class="col-md-4">
+                                <div class="cruise-ticket">
+                                	<label class="label cruise-ticket-label" for="">
+                                		<span>
+                                			Vegetarian :
+                                		</span>
+                                	</label>
+                                	<input type="hidden" name="meal_id[]" value="39" style="width:40px" value="99"/>
+                                	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="vegetarian"/>
+                                </div>
+                			</div>
+                		</div>
+
                 	</div>
                 </div>
                 <?php endif;?>
