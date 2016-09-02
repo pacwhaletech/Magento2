@@ -5887,3 +5887,30 @@ a.ui-state-default.ui-state-hover{
     padding: 0px 30px;
     font-weight: normal;
 }
+
+.cart.table-wrapper .item-options dt{
+    float: left;
+    clear: none;
+    margin: 0 5px 5px 0;
+}
+
+.cart.table-wrapper .item-options dd{
+    margin: 0 10px 5px 0px;
+}
+
+.cart.table-wrapper .cart.items .col {
+    border-bottom: 0px solid #eee;
+    text-align: left;
+    padding: 6px 10px;
+}
+.cart.table-wrapper .product-item-name + .item-options {
+    margin-top: 0px;
+}
+
+
+
+
+
+
+
+
