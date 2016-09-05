@@ -2,6 +2,7 @@
  * Copyright © 2015 Magento. All rights reserved.
  * See COPYING.txt for license details.
  */
+ console.log('file loaded with mods');
  define([
  	'jquery',
  	'mage/translate',
@@ -47,16 +48,19 @@
 
         submitForm: function(form) {
             var self = this;
-            if (form.has('input[type="file"]').length && form.find('input[type="file"]').val() !== '') {
+            self.element.off('submit');
+            form.submit();
+
+/*            if (form.has('input[type="file"]').length && form.find('input[type="file"]').val() !== '') {
                 self.element.off('submit');
                 form.submit();
             } else {
                 self.ajaxSubmit(form);
-            }
+            }*/
         },
 
         ajaxSubmit: function(form) {
-        	console.log('hi');
+        	console.log('ajaxSubmit');
         	form.submit();
         	return;
 			var self = this;
