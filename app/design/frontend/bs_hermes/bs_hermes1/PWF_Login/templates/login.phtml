@@ -1,0 +1,24 @@
+<?php
+
+// @codingStandardsIgnoreFile
+
+/**
+ * Login area template
+ *
+ * @var $block \Rokanthemes\PWFLogin\Block\Login
+ */
+?>
+
+<div class="register-login">
+<?php if($block->isLoggedIn()) : ?>
+	Aloha, <?php echo $block->getFirstName();?>
+	<span>/</span>
+	<a href="<?php echo $this->getURL('customer/account/');?>">Account</a>
+	<span>/</span>
+	<a href="<?php echo $this->getURL('customer/account/logout/');?>">Log Out</a>
+<?php else :?>
+	<a href="<?php echo $this->getURL('customer/account/create/');?>">Registration</a>
+	<span>/</span>
+	<a href="<?php echo $this->getURL('customer/account/login/');?>">Log in</a>
+<?php endif;?>
+</div>

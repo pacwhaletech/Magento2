@@ -9,11 +9,7 @@
 						<argument name="block_id" xsi:type="string">social_header</argument>
 					</arguments>
 				</block>
-				<block class="Magento\Cms\Block\Block" name="register_login">
-					<arguments>
-						<argument name="block_id" xsi:type="string">register_login</argument>
-					</arguments>
-				</block>
+				<block class="Rokanthemes\PWFLogin\Block\Login" name="register_login" template="PWF_Login::login.phtml" />
                 <block class="Magento\Framework\View\Element\Template" name="top.search" as="topSearch" template="Magento_Search::form.mini.phtml" />
 				<block class="Magento\Framework\View\Element\Template" name="top.navigation.sections" template="Magento_Theme::html/sections.phtml">
 					<arguments>
