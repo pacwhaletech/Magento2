@@ -36,6 +36,42 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
         }
 	}	
 	
+	public function processTicket($key, $value, $params){
+	    $params['options'] = [];
+	    $productId = $params['ticket_id'][$key];
+	    $productQuantity = $params['ticket_qty'][$key];
+	    $product = $this->initTicketProduct($productId);
+	    $options = $product->getOptions();
+	    foreach ($options as $o) {
+	        if($o->getTitle() == "Cruise Time")
+	        {
+	            $id = $o->getId();
+	            $params['options'][$id] = $params['cruise_time'];
+	        }
+	        elseif($o->getTitle() == "Cruise Date")
+	        {
+	            $id = $o->getId();
+	            $params['options'][$id] = $params['cruise_date'];
+	            $x = 9;
+	        }
+	        elseif($o->getTitle() == "Cruise SKU")
+	        {
+	            $id = $o->getId();
+	            $params['options'][$id] = 'CRU'; //$params['cruise_sku'];
+	            $x = 9;
+	        }
+	        //$o.setValue('2:00');
+	        $x = 5;
+	    }
+	    $productParams = $params;
+	    $productParams['qty'] = $productQuantity;
+	    $productParams['product'] = $productId;
+	    if($productQuantity > 0){
+	        $this->cart->addProduct($product, $productParams);
+	        $this->product = $product;
+	    }
+	}
+	
 	
     public function execute()
     {
@@ -51,33 +87,7 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
                 // create a new product and add to cart
                 $productIds = $params['ticket_id'];
                 foreach($productIds as $key=>$value) {
-                    $params['options'] = [];
-                    $productId = $params['ticket_id'][$key];
-                    $productQuantity = $params['ticket_qty'][$key];
-                    $product = $this->initTicketProduct($productId);
-                    $options = $product->getOptions();
-                    foreach ($options as $o) {
-                        if($o->getTitle() == "Cruise Time")
-                        {
-                            $id = $o->getId();
-                            $params['options'][$id] = $params['cruise_time'];
-                        }
-                        elseif($o->getTitle() == "Cruise Date")
-                        {
-                            $id = $o->getId();
-                            $params['options'][$id] = $params['cruise_date'];
-                            $x = 9;
-                        }
-                        //$o.setValue('2:00');
-                        $x = 5;
-                    }
-                    $y = 10;
-                    $productParams = $params;
-                    $productParams['qty'] = $productQuantity;
-                    $productParams['product'] = $productId;
-                    if($productQuantity > 0){
-                        $this->cart->addProduct($product, $productParams);
-                    }
+                    $this->processTicket($key, $value, $params);
                 }
             }
             else{
@@ -107,20 +117,20 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
              */
             $this->_eventManager->dispatch(
                 'checkout_cart_add_product_complete',
-                ['product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse()]
+                ['product' => $this->product, 'request' => $this->getRequest(), 'response' => $this->getResponse()]
             );
 
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
                 if (!$this->cart->getQuote()->getHasError()) {
                     $message = __(
                         'You added %1 to your shopping cart.',
-                        $product->getName()
+                        $this->product->getName()
                     );
 					$this->_messege = $message;
                     $this->messageManager->addSuccessMessage($message);
                 }
-				$this->_result['html'] = $this->_getHtmlResponeAjaxCart($product);
-                return $this->goBack(null, $product);
+				$this->_result['html'] = $this->_getHtmlResponeAjaxCart($this->product);
+                return $this->goBack(null, $this->product);
             }
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             if ($this->_checkoutSession->getUseNotice(true)) {
