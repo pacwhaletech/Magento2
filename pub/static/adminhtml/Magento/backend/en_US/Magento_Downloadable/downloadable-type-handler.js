@@ -1,1 +1,0 @@
-/Users/james/Documents/web/m/vendor/magento/module-downloadable/view/adminhtml/web/downloadable-type-handler.js

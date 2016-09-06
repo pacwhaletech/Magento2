@@ -1,1 +1,0 @@
-/Users/james/Documents/web/m/vendor/magento/module-catalog/view/adminhtml/web/catalog/type-events.js
