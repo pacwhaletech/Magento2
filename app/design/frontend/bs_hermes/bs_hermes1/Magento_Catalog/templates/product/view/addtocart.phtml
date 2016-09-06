@@ -12,6 +12,10 @@
     $_product = $block->getProduct();
     $tour_code = $_product->getData('tour_code'); 
     $isCruise = $_product->getAttributeSetId() == '10';
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $new_product = $objectManager->get('Magento\Catalog\Model\Product')->load($_product->getId());
+    $sku = $new_product->getSku();
+    $id = $new_product->getId();
 ?>
 <?php $buttonTitle = __('Add to Cart'); ?>
 <?php if ($_product->isSaleable()): ?>
@@ -24,6 +28,9 @@
             <div class="fieldset" ng-controller="timeAndDate">
                 <?php if ($block->shouldRenderQuantity()): ?>
                 <input type="hidden" name="is_cruise" value="1"/>
+                <input type="hidden" name="cruise_sku" value="<?php echo $sku;?>"/>
+                <input type="hidden" name="cruise_id" value="<?php echo $id;?>"/>
+
                 <h2>1. Select Date and Time:</h2>
                 <div class="row cruise-date-time-controls">
                 	<div class="col-md-3">
@@ -318,7 +325,11 @@
 			return [hasCruise, 'highlight'];
         }
         function onDaySelect(dt, $scope){
-            dt = new Date(dt);
+            var dateParts = dt.split('-'); // workaround for safari
+            var month = dateParts[0];
+            var day = dateParts[1];
+            var year = dateParts[2];
+            dt = new Date(year, month, day);
 			$scope.cruiseTimes = $scope.datesAndTimes[dt.mmddyyyy()];
 			$scope.cruiseTime = $scope.cruiseTimes[0].time;
 			$scope.$digest();

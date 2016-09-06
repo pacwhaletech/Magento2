@@ -36,41 +36,46 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
         }
 	}	
 	
-	public function processTicket($key, $value, $params){
-	    $params['options'] = [];
-	    $productId = $params['ticket_id'][$key];
-	    $productQuantity = $params['ticket_qty'][$key];
-	    $product = $this->initTicketProduct($productId);
-	    $options = $product->getOptions();
-	    foreach ($options as $o) {
-	        if($o->getTitle() == "Cruise Time")
-	        {
-	            $id = $o->getId();
-	            $params['options'][$id] = $params['cruise_time'];
+	public function processCruiseItems($ids, $quantities, $params){
+	    foreach($ids as $index=>$productId) {
+	        $qty = $quantities[$index];
+	        if($qty > 0){
+	           $this->addCruiseItem($qty, $productId, $params);
 	        }
-	        elseif($o->getTitle() == "Cruise Date")
-	        {
-	            $id = $o->getId();
-	            $params['options'][$id] = $params['cruise_date'];
-	            $x = 9;
-	        }
-	        elseif($o->getTitle() == "Cruise SKU")
-	        {
-	            $id = $o->getId();
-	            $params['options'][$id] = 'CRU'; //$params['cruise_sku'];
-	            $x = 9;
-	        }
-	        //$o.setValue('2:00');
-	        $x = 5;
-	    }
-	    $productParams = $params;
-	    $productParams['qty'] = $productQuantity;
-	    $productParams['product'] = $productId;
-	    if($productQuantity > 0){
-	        $this->cart->addProduct($product, $productParams);
-	        $this->product = $product;
 	    }
 	}
+	
+
+    public function addCruiseItem($qty, $productId, $params){
+    	$loaded_product = $this->initTicketProduct($productId);
+    	if (!$loaded_product) {return $this->goBack();} 
+    	$productParams = $params;  // copy param values from original request
+    	$productParams['qty'] = $qty;
+    	$productParams['product'] = $productId;
+    	$productParams['options'] = $this->getCruiseItemOptions($loaded_product, $params);
+    	// $this->product = $product;
+        $this->cart->addProduct($loaded_product, $productParams);
+	}
+
+	public function getCruiseItemOptions($loadedProduct, $postParams){
+		$cruiseItemOptions = [];
+		$optionIds = $this->getOptionIdsByTitle($loadedProduct->getOptions());           // map of options
+		$cruiseItemOptions[$optionIds["Cruise Date"]] = $postParams['cruise_date'];
+		$cruiseItemOptions[$optionIds["Cruise Time"]] = $postParams['cruise_time'];
+		$cruiseItemOptions[$optionIds["Cruise SKU"]] = $postParams['cruise_sku'];
+		return $cruiseItemOptions;
+	}
+
+	public function getOptionIdsByTitle($options){
+		$optionsOut = [];
+  		foreach ($options as $o) {
+			$optionsOut[$o->getTitle()] = $o->getId();
+		}
+		return $optionsOut;
+	}
+
+	
+	
 	
 	
     public function execute()
@@ -79,18 +84,19 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
             return $this->resultRedirectFactory->create()->setPath('*/*/');
         }
         
-
         $params = $this->getRequest()->getParams();
         try {
-            if(isset($params['is_cruise'])){
-                // for items in related
-                // create a new product and add to cart
-                $productIds = $params['ticket_id'];
-                foreach($productIds as $key=>$value) {
-                    $this->processTicket($key, $value, $params);
-                }
+            // get params[cruise_sku] then create product then check attribute set id
+            if(isset($params['is_cruise'])){ // if this is a cruise, process differently
+                $ticketIds = $params['ticket_id'];
+                $ticketQuantities = $params['ticket_qty'];
+                $this->processCruiseItems($ticketIds, $ticketQuantities, $params);
+                $mealIds = $params['meal_id'];
+                $mealQuantities = $params['meal_qty'];
+                $this->processCruiseItems($mealIds, $mealQuantities, $params);
+                $product = $this->initTicketProduct($params['cruise_id']);
             }
-            else{
+            else{   // do normal single-item processing
                  if (isset($params['qty'])) {
                     $filter = new \Zend_Filter_LocalizedToNormalized(
                         ['locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocale()]
@@ -115,22 +121,24 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
             /**
              * @todo remove wishlist observer \Magento\Wishlist\Observer\AddToCart
              */
+            
+            
             $this->_eventManager->dispatch(
                 'checkout_cart_add_product_complete',
-                ['product' => $this->product, 'request' => $this->getRequest(), 'response' => $this->getResponse()]
+                ['product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse()]
             );
 
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
                 if (!$this->cart->getQuote()->getHasError()) {
                     $message = __(
                         'You added %1 to your shopping cart.',
-                        $this->product->getName()
+                        $product->getName()
                     );
 					$this->_messege = $message;
                     $this->messageManager->addSuccessMessage($message);
                 }
-				$this->_result['html'] = $this->_getHtmlResponeAjaxCart($this->product);
-                return $this->goBack(null, $this->product);
+				$this->_result['html'] = $this->_getHtmlResponeAjaxCart($product);
+                return $this->goBack(null, $product);
             }
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             if ($this->_checkoutSession->getUseNotice(true)) {
@@ -161,6 +169,8 @@ class Add extends \Magento\Checkout\Controller\Cart\Add
             return $this->goBack();
         }
     }
+    
+
 
     /**
      * Resolve response
