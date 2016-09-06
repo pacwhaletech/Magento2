@@ -285,7 +285,6 @@
     // controller
     t.controller('timeAndDate',function($scope,$http){
         $scope.datesAndTimes = [];
-        $scope.cruiseTime = "loading";
         $scope.cruiseTimes = [];
         $scope.cruiseDate = 'Loading Dates...';
         $scope.tourCode = 0;
@@ -318,15 +317,11 @@
           }
         function checkDayForCruises(dt, $scope){
 			var hasCruise = !($scope.datesAndTimes[dt.mmddyyyy()] === undefined);
-			var dd = new Date()
-			if(dd.mmddyyyy() == dt.mmddyyyy()){
-				hasCruise = true;
-			}
 			return [hasCruise, 'highlight'];
         }
         function onDaySelect(dt, $scope){
             var dateParts = dt.split('-'); // workaround for safari
-            var month = dateParts[0];
+            var month = dateParts[0]-1;
             var day = dateParts[1];
             var year = dateParts[2];
             dt = new Date(year, month, day);
