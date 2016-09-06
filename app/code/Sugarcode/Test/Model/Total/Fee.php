@@ -4,10 +4,6 @@
  * See COPYING.txt for license details.
  */
 namespace Sugarcode\Test\Model\Total;
-//$_product->getAttributes()['harbor']->getFrontend()->getValue($_product)
-//$membershipProduct->getAttributes()['member_discounted_seats']->getFrontEnd()->getValue($membershipProduct)
-//                 // $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-                // $loadedProduct = $objectManager->get('Magento\Catalog\Model\Product')->load($id);
 
 class Fee extends \Magento\Quote\Model\Quote\Address\Total\AbstractTotal
 {
