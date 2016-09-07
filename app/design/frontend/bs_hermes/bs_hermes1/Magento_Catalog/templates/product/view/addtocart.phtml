@@ -57,32 +57,57 @@
                 <div>
                     <div class="control cruise-tickets">
                     	<h2>2. Choose Tickets:</h2>
-        				<?php 
-        				    $related_products = $_product->getRelatedProductIds(); 
-        				    $object_manager = \Magento\Framework\App\ObjectManager::getInstance();
-        				    $sorted_related_products = [];
-            				foreach($related_products as $pid){
-            					$related_product = $object_manager->create('Magento\Catalog\Model\Product')->load($pid);
-            					$age_limit = $related_product->getData('age_limit');
-            					$sorted_related_products[$age_limit] = $related_product;
+        				<?php             				
+            				$related_products = $_product->getRelatedProducts();
+            				$object_manager = \Magento\Framework\App\ObjectManager::getInstance();
+            				$sorted_related_products = [];
+            				
+            				$repo = $object_manager->get('Magento\Catalog\Model\Product\Attribute\Repository');
+            				$att = $repo->get('ticket_type');
+            				$options = $att->getOptions();
+            				$ticket_types_by_id = [];
+            				foreach($options as $option){
+            				    $ticket_types_by_id[$option->getData('value')] = $option->getData('label');
             				}
-            				$result = krsort($sorted_related_products);				
+            				
+            				
+            				foreach($related_products as $related_product){
+            				    $position = $related_product->getData('position');
+            				    $id = $related_product->getId();
+            				    $loaded_related_product = $object_manager->create('Magento\Catalog\Model\Product')->load($id);
+            				    $sorted_related_products[$position] = $loaded_related_product;
+            				}
+            				ksort($sorted_related_products);
         				?>
-        				<input type="hidden" name="parent_id" value="<?php echo $_product->getId(); ?>"/>
                         <?php foreach($sorted_related_products as $sorted_related_product): ?>
                             <?php 
                                 $product_id = $sorted_related_product->getId();
                                 $product_name = $sorted_related_product->getName();
                                 $product_price = $sorted_related_product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount();
+                                $ticket_type = $ticket_types_by_id[$sorted_related_product->getData('ticket_type')];
+                                $class = '';
+                                if($ticket_type == 'Adult'){
+                                    $class = 'type_adult';
+                                }
+                                elseif($ticket_type == "Accompanying Child"){
+                                    $class = 'type_accompanying_child';
+                                }
+
                             ?>
         					<input type="hidden" name="ticket_id[]" value="<?php echo $product_id; ?>"/>
                             <div class="cruise-ticket">
-                            	<label class="label cruise-ticket-label" for="">
-                            		<span>
-                            			<?php echo $product_name?> : $<?php echo $product_price?>
-                            		</span>
-                            	</label>
-                            	<input type="text" ng-change="getTotalMeals()" ng-model="tickets._<?php echo $product_id; ?>" name="ticket_qty[]" value="0" style="width:40px"/>
+                                <div class="row">
+                                	<div class="col-md-5">
+                                     	<label class="label cruise-ticket-label" for="">
+                                    		<span>
+                                    			<?php echo $product_name?> : $<?php echo $product_price?>
+                                    		</span>
+                                    	</label>                           	
+                                	</div>
+                                	<div class="col-md-3">
+                                		<input type="number" class="<?php echo $class?>" ng-change="getTotalMeals()" ng-model="qty_<?php echo $class; ?>" name="ticket_qty[]" value="0" style="width:40px"/>
+                                	</div>
+                                </div>
                             </div>
         				<?php endforeach; ?>	
                     </div>
@@ -252,6 +277,8 @@
 
     // meals controller
     t.controller('mealsAndTickets', function($scope){
+        $scope.qty_type_accompanying_child = 0;
+        $scope.qty_type_adult = 0;
         $scope.totalMeals = 0;
         $scope.totalTickets = 0;
         $scope.steak = 0;
@@ -264,15 +291,32 @@
             return (!isNaN(i)) ? i : 0;
         }
 		$scope.getTotalMeals = function(){
+	        if($scope.qty_type_adult < $scope.qty_type_accompanying_child){
+	        	$scope.qty_type_accompanying_child = $scope.qty_type_adult;
+	        }
 			$scope.totalMeals = $scope.getNumericValue($scope.steak) + $scope.getNumericValue($scope.shrimp) + $scope.getNumericValue($scope.chicken) + $scope.getNumericValue($scope.vegetarian);
 			$scope.totalTickets = $scope.getTotalTickets();
 		}
+		
 		$scope.getTotalTickets = function(){
 			var qInputs = _$('.cruise-tickets .cruise-ticket input');
 			var len = qInputs.length;
 			var total = 0;
 			for(var i = 0; i < len; i++){
-				total += $scope.getNumericValue(_$(qInputs[i]).val());
+				var input = _$(qInputs[i]);
+				if(input.hasClass('type_accompanying_child')){
+					var val = $scope.getNumericValue(input.val());
+					if(val > $scope.qty_type_adult){
+						total += $scope.getNumericValue($scope.qty_type_adult);
+					}
+					else{
+						total += val;
+					}
+				}
+				else{
+					total += $scope.getNumericValue(input.val());
+				}
+				
 			}
 			return total;
 		}
