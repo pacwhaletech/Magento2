@@ -5907,6 +5907,10 @@ a.ui-state-default.ui-state-hover{
     margin-top: 0px;
 }
 
+.pwf_error{
+  color:red;
+}
+
 
 
 

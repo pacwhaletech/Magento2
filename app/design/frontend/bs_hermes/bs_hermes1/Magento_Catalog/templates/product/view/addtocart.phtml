@@ -82,7 +82,7 @@
                         <?php foreach($sorted_related_products as $sorted_related_product): ?>
                             <?php 
                                 $product_id = $sorted_related_product->getId();
-                                $product_name = $sorted_related_product->getName();
+                                $product_label = $sorted_related_product->getData('ticket_label');
                                 $product_price = $sorted_related_product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount();
                                 $ticket_type = $ticket_types_by_id[$sorted_related_product->getData('ticket_type')];
                                 $class = '';
@@ -100,13 +100,16 @@
                                 	<div class="col-md-5">
                                      	<label class="label cruise-ticket-label" for="">
                                     		<span>
-                                    			<?php echo $product_name?> : $<?php echo $product_price?>
+                                    			<?php echo $product_label?> 
                                     		</span>
                                     	</label>                           	
                                 	</div>
-                                	<div class="col-md-3">
-                                		<input type="number" class="<?php echo $class?>" ng-change="getTotalMeals()" ng-model="qty_<?php echo $class; ?>" name="ticket_qty[]" value="0" style="width:40px"/>
-                                	</div>
+                                    <div class="col-md-2">
+                                        $<?php echo $product_price?>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="number" class="<?php echo $class?>" ng-change="getTotalMeals()" ng-model="qty_<?php echo $class; ?>" name="ticket_qty[]" value="0" style="width:40px"/>
+                                    </div>
                                 </div>
                             </div>
         				<?php endforeach; ?>	
@@ -117,7 +120,7 @@
                 <div>
                 	<div class="control cruise-meals">
                 		<h2>3. Choose Meals</h2>
-                		<h4>{{getMessage()}}</h4>
+                		<h4 class="{{getMessageClass()}}" generated="true">{{getMessage()}}</h4>
                 		<div class="row">
                 			<div class="col-md-4">
                                 <div class="cruise-ticket">
@@ -256,6 +259,10 @@
         $('#product_addtocart_form').mage('validation', {
             radioCheckboxClosest: '.nested',
             submitHandler: function (form) {
+                var button = $('#product-addtocart-button');
+                if(button.hasClass('angular-invalid')){
+                    return false;
+                }
                 var widget = $(form).catalogAddToCart({
                     bindSubmit: false
                 });
@@ -286,6 +293,13 @@
         $scope.chicken = 0;
         $scope.vegetarian = 0;
         $scope.tickets = {};
+        $scope.getButtonClass = function(){
+            return ($scope.totalMeals == $scope.totalTickets)?'xxx':'angular-invalid';
+        }
+
+        $scope.getMessageClass = function(){
+            return ($scope.totalMeals == $scope.totalTickets)?'':'pwf_error';
+        }
         $scope.getNumericValue = function(n){
             var i = parseInt(n);
             return (!isNaN(i)) ? i : 0;
@@ -296,6 +310,9 @@
 	        }
 			$scope.totalMeals = $scope.getNumericValue($scope.steak) + $scope.getNumericValue($scope.shrimp) + $scope.getNumericValue($scope.chicken) + $scope.getNumericValue($scope.vegetarian);
 			$scope.totalTickets = $scope.getTotalTickets();
+            if(_$){
+                _$("#product-addtocart-button").addClass($scope.getButtonClass());
+            }
 		}
 		
 		$scope.getTotalTickets = function(){
