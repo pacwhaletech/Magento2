@@ -19,23 +19,6 @@
             <span class="counter-number"><!-- ko text: cart().summary_count --><!-- /ko --></span>
         </span>
     </a>
-    <?php if ($block->getIsNeedToDisplaySideBar()): ?>
-        <div class="block block-minicart empty"
-             data-role="dropdownDialog"
-             data-mage-init='{"dropdownDialog":{
-                "appendTo":"[data-block=minicart]",
-                "triggerTarget":".showcart",
-                "timeout": "2000",
-                "closeOnMouseLeave": true,
-                "closeOnEscape": true,
-                "triggerClass":"active",
-                "parentClass":"active",
-                "buttons":[]}}'>
-            <div id="minicart-content-wrapper" data-bind="scope: 'minicart_content'">
-                <!-- ko template: getTemplate() --><!-- /ko -->
-            </div>
-        </div>
-    <?php endif ?>
     <script>
         window.checkout = <?php /* @escapeNotVerified */ echo \Zend_Json::encode($block->getConfig()); ?>;
     </script>

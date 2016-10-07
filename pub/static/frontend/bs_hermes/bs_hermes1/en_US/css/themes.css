@@ -5808,9 +5808,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .cruise-ticket{
 	margin-bottom:20px;
 }
-.product.data.items > .data.item.title:first-child{
-	margin-left: 43% !important;
-}
 
 .pwf-hover-block:hover .pwf-banner:before{
 	opacity: 0.4;
@@ -5909,6 +5906,14 @@ a.ui-state-default.ui-state-hover{
 
 .pwf_error{
   color:red;
+}
+
+.cruise-tickets, .meal-tickets{
+  margin-bottom:40px;
+}
+
+.modes{
+  display:none;
 }
 
 

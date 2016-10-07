@@ -17,6 +17,58 @@ class Interceptor extends \Rokanthemes\RokanBase\Controller\Checkout\Cart\Add im
     /**
      * {@inheritdoc}
      */
+    public function processCruiseItems($ids, $quantities, $params)
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'processCruiseItems');
+        if (!$pluginInfo) {
+            return parent::processCruiseItems($ids, $quantities, $params);
+        } else {
+            return $this->___callPlugins('processCruiseItems', func_get_args(), $pluginInfo);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addCruiseItem($qty, $productId, $params)
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'addCruiseItem');
+        if (!$pluginInfo) {
+            return parent::addCruiseItem($qty, $productId, $params);
+        } else {
+            return $this->___callPlugins('addCruiseItem', func_get_args(), $pluginInfo);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCruiseItemOptions($loadedProduct, $postParams)
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'getCruiseItemOptions');
+        if (!$pluginInfo) {
+            return parent::getCruiseItemOptions($loadedProduct, $postParams);
+        } else {
+            return $this->___callPlugins('getCruiseItemOptions', func_get_args(), $pluginInfo);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getOptionIdsByTitle($options)
+    {
+        $pluginInfo = $this->pluginList->getNext($this->subjectType, 'getOptionIdsByTitle');
+        if (!$pluginInfo) {
+            return parent::getOptionIdsByTitle($options);
+        } else {
+            return $this->___callPlugins('getOptionIdsByTitle', func_get_args(), $pluginInfo);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function execute()
     {
         $pluginInfo = $this->pluginList->getNext($this->subjectType, 'execute');
