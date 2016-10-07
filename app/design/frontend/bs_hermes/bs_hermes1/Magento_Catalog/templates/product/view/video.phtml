@@ -1,0 +1,9 @@
+<?php 
+$id = $block->getProduct()->getData('youtube_id');
+?>
+
+<div class="product info detailed embed-responsive embed-responsive-16by9">
+	<?php if(!is_null($id)) : ?>
+		<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/<?php echo $block->getProduct()->getData('youtube_id')?>" frameborder="0" allowfullscreen></iframe>
+	<?php endif; ?>
+</div>

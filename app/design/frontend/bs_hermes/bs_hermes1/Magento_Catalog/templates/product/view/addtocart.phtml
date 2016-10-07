@@ -7,6 +7,7 @@
 // @codingStandardsIgnoreFile
 
 /** @var $block \Magento\Catalog\Block\Product\View */
+use Rokanthemes\PriceCountdown\Helper\Ticket;
 ?>
 <?php 
     $_product = $block->getProduct();
@@ -22,7 +23,7 @@
 	<?php if($isCruise) : ?>
 		<?php 
 		  $has_meals = $_product->getData('has_meals') == '1';
-		  $controller_name = ($has_meals) ? 'mealsAndTickets' : '';
+		  $controller_name = ($has_meals) ? 'mealsAndTickets' : 'justTickets';
         ?>
         <div class="box-tocart" ng-app="ticketSelectorApp">
             <div class="fieldset" ng-controller="timeAndDate">
@@ -38,7 +39,7 @@
                             <label class="label" for="cruise_date"><span><?php /* @escapeNotVerified */ echo __('Cruise Date') ?></span></label>
                             <div class="control">
                                 <!--  <input type="text" name="cruise_date" id="cruise_date" value="10/1/2016" style="width:100px"><br/> -->
-                                <input ng-model="cruiseDate" class="datepicker" name="cruise_date" id="cruise_date" required class="form-control" type="text" id="pdp-date" />
+                                <input ng-model="cruiseDate" class="datepicker validate-date required-entry" name="cruise_date" id="cruise_date" required class="form-control" type="text" id="pdp-date" />
                             </div>
                         </div>	
                 	</div>
@@ -46,13 +47,15 @@
                         <div class="field">
                             <label class="label" for="cruise_time"><span><?php /* @escapeNotVerified */ echo __('Cruise Time') ?></span></label>
                             <div class="control">
-                                <select name="cruise_time" id="cruise_time" ng-disabled="hasNoTimes()" ng-options="cruiseTime.time for cruiseTime in cruiseTimes track by cruiseTime.time" ng-model="cruiseTime" style="width:100px"></select>
+                                <select  class="time" name="cruise_time" id="cruise_time" ng-disabled="hasNoTimes()" ng-options="cruiseTime.time for cruiseTime in cruiseTimes track by cruiseTime.time" ng-model="cruiseTime" ng-change="checkSeats()" style="width:100px"></select>
                             </div>
                         </div>
                 	</div>
                 </div>
-        
+                <div class="pwf_error">{{getSeatsMessage()}}</div>
         	</div>
+
+
         	<div class="fieldset" ng-controller="<?php echo $controller_name; ?>">
                 <div>
                     <div class="control cruise-tickets">
@@ -79,7 +82,7 @@
             				}
             				ksort($sorted_related_products);
         				?>
-                        <?php foreach($sorted_related_products as $sorted_related_product): ?>
+                        <?php foreach($sorted_related_products as $index => $sorted_related_product): ?>
                             <?php 
                                 $product_id = $sorted_related_product->getId();
                                 $product_label = $sorted_related_product->getData('ticket_label');
@@ -91,6 +94,9 @@
                                 }
                                 elseif($ticket_type == "Accompanying Child"){
                                     $class = 'type_accompanying_child';
+                                }
+                                else{
+                                    $class = "type_child_" . $index;
                                 }
 
                             ?>
@@ -118,9 +124,9 @@
                 
                 <?php if($has_meals) : ?>
                 <div>
-                	<div class="control cruise-meals">
+                	<div class="control meal-tickets">
                 		<h2>3. Choose Meals</h2>
-                		<h4 class="{{getMessageClass()}}" generated="true">{{getMessage()}}</h4>
+                		<div class="{{getMessageClass()}}" generated="true">{{getMessage()}}</div>
                 		<div class="row">
                 			<div class="col-md-4">
                                 <div class="cruise-ticket">
@@ -131,7 +137,7 @@
                                 	</label>
                                 	<input type="hidden" name="meal_id[]" value="36" style="width:40px" value="99"/>
                                 	<input type="hidden" name="meal_parent_cruise_name[]" value="<?php echo $_product->getSku()?>" style="width:40px" value="99"/>
-                                	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="steak"/>
+                                	<input type="number" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="steak"/>
                                 </div>
                 			
                 			</div>
@@ -143,7 +149,7 @@
                                 		</span>
                                 	</label>
                                 	<input type="hidden" name="meal_id[]" value="37" style="width:40px" value="99"/>
-                                	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="shrimp"/>
+                                	<input type="number" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="shrimp"/>
                                 </div>
                 			</div>
                 		</div>
@@ -157,7 +163,7 @@
                                 		</span>
                                 	</label>
                                 	<input type="hidden" name="meal_id[]" value="38" style="width:40px" value="99"/>
-                                	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="chicken"/>
+                                	<input type="number" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="chicken"/>
                                 </div>
                 			</div>
                 			<div class="col-md-4">
@@ -168,7 +174,7 @@
                                 		</span>
                                 	</label>
                                 	<input type="hidden" name="meal_id[]" value="39" style="width:40px" value="99"/>
-                                	<input type="text" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="vegetarian"/>
+                                	<input type="number" name="meal_qty[]" value="0" style="width:40px" ng-change="getTotalMeals()" ng-model="vegetarian"/>
                                 </div>
                 			</div>
                 		</div>
@@ -195,14 +201,14 @@
             <div class="fieldset">
                 <?php if ($block->shouldRenderQuantity()): ?>
                 <div class="field qty">
-                    <label class="label" for="qty"><span><?php /* @escapeNotVerified */ echo __('Qantity :') ?></span></label>
+                    <label class="label" for="qty"><span><?php /* @escapeNotVerified */ echo __('Quantity :') ?></span></label>
                     <div class="control">
                         <input type="number"
                                name="qty"
                                id="qty"
                                maxlength="12"
                                value="<?php /* @escapeNotVerified */ echo $block->getProductDefaultQty() * 1 ?>"
-                               title="<?php /* @escapeNotVerified */ echo __('Qantity') ?>" class="input-text qty"
+                               title="<?php /* @escapeNotVerified */ echo __('Quantity') ?>" class="input-text qty"
                                data-validate="<?php echo $block->escapeHtml(json_encode($block->getQuantityValidators())) ?>"
                                />
                     </div>
@@ -260,7 +266,7 @@
             radioCheckboxClosest: '.nested',
             submitHandler: function (form) {
                 var button = $('#product-addtocart-button');
-                if(button.hasClass('angular-invalid')){
+                if(button.hasClass('seats-invalid') || button.hasClass('meals-invalid')){
                     return false;
                 }
                 var widget = $(form).catalogAddToCart({
@@ -282,10 +288,15 @@
     <?php if($isCruise) : ?>    
     var t = angular.module('ticketSelectorApp',[]);
 
-    // meals controller
-    t.controller('mealsAndTickets', function($scope){
+
+
+    t.controller('justTickets', function($scope, $rootScope){
         $scope.qty_type_accompanying_child = 0;
         $scope.qty_type_adult = 0;
+        $scope.qty_type_child_0 = 0;
+        $scope.qty_type_child_1 = 0;
+        $scope.qty_type_child_2 = 0;
+
         $scope.totalMeals = 0;
         $scope.totalTickets = 0;
         $scope.steak = 0;
@@ -293,8 +304,41 @@
         $scope.chicken = 0;
         $scope.vegetarian = 0;
         $scope.tickets = {};
+
+
+        $scope.getNumericValue = function(n){
+            var i = parseInt(n);
+            return (!isNaN(i)) ? i : 0;
+        }
+        $scope.getTotalMeals = function(){
+            if($scope.qty_type_adult < $scope.qty_type_accompanying_child){
+                $scope.qty_type_accompanying_child = $scope.qty_type_adult;
+            }
+            $rootScope.$broadcast("ticketQuantityChange");
+        }
+        
+    });
+
+
+
+    // meals controller
+    t.controller('mealsAndTickets', function($scope, $rootScope){
+        $scope.qty_type_accompanying_child = 0;
+        $scope.qty_type_adult = 0;
+        $scope.qty_type_child_0 = 0;
+        $scope.qty_type_child_1 = 0;
+        $scope.qty_type_child_2 = 0;
+
+        $scope.totalMeals = 0;
+        $scope.totalTickets = 0;
+        $scope.steak = 0;
+        $scope.shrimp = 0;
+        $scope.chicken = 0;
+        $scope.vegetarian = 0;
+        $scope.tickets = {};
+
         $scope.getButtonClass = function(){
-            return ($scope.totalMeals == $scope.totalTickets)?'xxx':'angular-invalid';
+            return ($scope.totalMeals == $scope.totalTickets)?'':'angular-invalid';
         }
 
         $scope.getMessageClass = function(){
@@ -310,9 +354,13 @@
 	        }
 			$scope.totalMeals = $scope.getNumericValue($scope.steak) + $scope.getNumericValue($scope.shrimp) + $scope.getNumericValue($scope.chicken) + $scope.getNumericValue($scope.vegetarian);
 			$scope.totalTickets = $scope.getTotalTickets();
-            if(_$){
-                _$("#product-addtocart-button").addClass($scope.getButtonClass());
+            if($scope.totalMeals != $scope.totalTickets){
+                _$("#product-addtocart-button").addClass('meals-invalid');
             }
+            else{
+                _$("#product-addtocart-button").removeClass('meals-invalid');
+            }
+            $rootScope.$broadcast("ticketQuantityChange");
 		}
 		
 		$scope.getTotalTickets = function(){
@@ -324,6 +372,7 @@
 				if(input.hasClass('type_accompanying_child')){
 					var val = $scope.getNumericValue(input.val());
 					if(val > $scope.qty_type_adult){
+                        input.val($scope.qty_type_adult);
 						total += $scope.getNumericValue($scope.qty_type_adult);
 					}
 					else{
@@ -344,11 +393,14 @@
     });
 
     // controller
-    t.controller('timeAndDate',function($scope,$http){
+    t.controller('timeAndDate',function($scope, $rootScope, $http){
         $scope.datesAndTimes = [];
         $scope.cruiseTimes = [];
         $scope.cruiseDate = 'Loading Dates...';
         $scope.tourCode = 0;
+        $scope.maxSeats = 0;
+        $scope.overMaxSeats = false;
+        
         loadDatesAndTimes($scope);
         var datesAndTimes;
         function hasNoTimes(){
@@ -380,6 +432,51 @@
 			var hasCruise = !($scope.datesAndTimes[dt.mmddyyyy()] === undefined);
 			return [hasCruise, 'highlight'];
         }
+
+        $scope.getSeatsMessage = function(){
+            return ($scope.overMaxSeats) ? 'Not enough seats. Only ' + $scope.maxSeats + " available." : "";
+        }
+
+        $scope.checkSeats = function(){
+            $scope.maxSeats = parseInt($scope.cruiseTime.seats);
+            if($scope.getTotalTickets() > $scope.maxSeats){
+                $scope.overMaxSeats = true;
+                _$("#product-addtocart-button").addClass('seats-invalid');
+            }
+            else{
+                $scope.overMaxSeats = false;
+                _$("#product-addtocart-button").removeClass('seats-invalid');
+            }
+        }
+
+        $scope.getAdultSeats = function(){
+            return parseInt(_$('.type_adult').val());
+        }
+
+        $scope.getTotalTickets = function(){
+            var qInputs = _$('.cruise-tickets .cruise-ticket input');
+            var len = qInputs.length;
+            var total = 0;
+            for(var i = 0; i < len; i++){
+                var input = _$(qInputs[i]);
+                if(input.hasClass('type_accompanying_child')){
+                    var val = $scope.getNumericValue(input.val());
+                    var adultSeats = $scope.getAdultSeats();
+                    if(val > adultSeats){
+                        input.val(adultSeats);
+                        total += $scope.getNumericValue(adultSeats);
+                    }
+                    else{
+                        total += val;
+                    }
+                }
+                else{
+                    total += $scope.getNumericValue(input.val());
+                }
+            }
+            return total;
+        }
+
         function onDaySelect(dt, $scope){
             var dateParts = dt.split('-'); // workaround for safari
             var month = dateParts[0]-1;
@@ -387,9 +484,20 @@
             var year = dateParts[2];
             dt = new Date(year, month, day);
 			$scope.cruiseTimes = $scope.datesAndTimes[dt.mmddyyyy()];
+            $scope.cruiseDate = dt.mmddyyyy();
 			$scope.cruiseTime = $scope.cruiseTimes[0].time;
 			$scope.$digest();
         }
+
+
+        $scope.getNumericValue = function(n){
+            var i = parseInt(n);
+            return (!isNaN(i)) ? i : 0;
+        }
+
+        $rootScope.$on("ticketQuantityChange", function(){
+            $scope.checkSeats();
+        });
       });
 <?php endif; ?>
 
