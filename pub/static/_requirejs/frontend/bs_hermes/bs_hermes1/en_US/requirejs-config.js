@@ -6,54 +6,6 @@
  */
 
 var config = {
-    map: {
-        "*": {
-            "rowBuilder":             "Magento_Theme/js/row-builder",
-            "toggleAdvanced":         "mage/toggle",
-            "translateInline":        "mage/translate-inline",
-            "sticky":                 "mage/sticky",
-            "tabs":                   "mage/tabs",
-            "zoom":                   "mage/zoom",
-            "collapsible":            "mage/collapsible",
-            "dropdownDialog":         "mage/dropdown",
-            "dropdown":               "mage/dropdowns",
-            "accordion":              "mage/accordion",
-            "loader":                 "mage/loader",
-            "tooltip":                "mage/tooltip",
-            "deletableItem":          "mage/deletable-item",
-            "itemTable":              "mage/item-table",
-            "fieldsetControls":       "mage/fieldset-controls",
-            "fieldsetResetControl":   "mage/fieldset-controls",
-            "redirectUrl":            "mage/redirect-url",
-            "loaderAjax":             "mage/loader",
-            "menu":                   "mage/menu",
-            "popupWindow":            "mage/popup-window",
-            "validation":             "mage/validation/validation",
-            "welcome":                "Magento_Theme/js/view/welcome"
-        }
-    },
-    paths: {
-        "jquery/ui": "jquery/jquery-ui"
-    },
-    deps: [
-        "jquery/jquery.mobile.custom",
-        "js/responsive",
-        "mage/common",
-        "mage/dataPost",
-        "js/theme",
-        "mage/bootstrap"
-    ]
-};
-
-require.config(config);
-})();
-(function() {
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-var config = {
     "waitSeconds": 0,
     "map": {
         "*": {
@@ -106,6 +58,54 @@ var config = {
 require(['jquery'], function ($) {
     $.noConflict();
 });
+
+require.config(config);
+})();
+(function() {
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+var config = {
+    map: {
+        "*": {
+            "rowBuilder":             "Magento_Theme/js/row-builder",
+            "toggleAdvanced":         "mage/toggle",
+            "translateInline":        "mage/translate-inline",
+            "sticky":                 "mage/sticky",
+            "tabs":                   "mage/tabs",
+            "zoom":                   "mage/zoom",
+            "collapsible":            "mage/collapsible",
+            "dropdownDialog":         "mage/dropdown",
+            "dropdown":               "mage/dropdowns",
+            "accordion":              "mage/accordion",
+            "loader":                 "mage/loader",
+            "tooltip":                "mage/tooltip",
+            "deletableItem":          "mage/deletable-item",
+            "itemTable":              "mage/item-table",
+            "fieldsetControls":       "mage/fieldset-controls",
+            "fieldsetResetControl":   "mage/fieldset-controls",
+            "redirectUrl":            "mage/redirect-url",
+            "loaderAjax":             "mage/loader",
+            "menu":                   "mage/menu",
+            "popupWindow":            "mage/popup-window",
+            "validation":             "mage/validation/validation",
+            "welcome":                "Magento_Theme/js/view/welcome"
+        }
+    },
+    paths: {
+        "jquery/ui": "jquery/jquery-ui"
+    },
+    deps: [
+        "jquery/jquery.mobile.custom",
+        "js/responsive",
+        "mage/common",
+        "mage/dataPost",
+        "js/theme",
+        "mage/bootstrap"
+    ]
+};
 
 require.config(config);
 })();
@@ -380,8 +380,7 @@ require.config(config);
 var config = {
     map: {
         '*': {
-            orderReview:            'Magento_Paypal/order-review',
-            paypalCheckout:         'Magento_Paypal/js/paypal-checkout'
+            transparent:            'Magento_Payment/transparent'
         }
     }
 };
@@ -396,7 +395,8 @@ require.config(config);
 var config = {
     map: {
         '*': {
-            transparent:            'Magento_Payment/transparent'
+            orderReview:            'Magento_Paypal/order-review',
+            paypalCheckout:         'Magento_Paypal/js/paypal-checkout'
         }
     }
 };
@@ -593,31 +593,6 @@ var config = {
         }
     }
 };
-require.config(config);
-})();
-(function() {
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-var config = {
-    map: {
-        '*': {
-            discountCode:           'Magento_Checkout/js/discount-codes',
-            shoppingCart:           'Magento_Checkout/js/shopping-cart',
-            regionUpdater:          'Magento_Checkout/js/region-updater',
-            sidebar:                'Magento_Checkout/js/sidebar',
-            checkoutLoader:         'Magento_Checkout/js/checkout-loader',
-            checkoutData:           'Magento_Checkout/js/checkout-data',
-            proceedToCheckout:      'Magento_Checkout/js/proceed-to-checkout'
-        }
-    },
-    deps: [
-        "Magento_Checkout/js/checkout-loader"
-    ]
-};
-
 require.config(config);
 })();
 (function() {

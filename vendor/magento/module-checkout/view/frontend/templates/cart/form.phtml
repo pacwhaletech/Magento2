@@ -7,6 +7,8 @@
 // @codingStandardsIgnoreFile
 
 /**  @var $block \Magento\Checkout\Block\Cart */
+$cart_helper = $this->helper('PWF\Cart\Helper\Data');
+$x = 9;
 ?>
 <?php $mergedCells = ($this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices() ? 2 : 1); ?>
 <?php echo $block->getChildHtml('form_before') ?>
@@ -32,6 +34,11 @@
             </thead>
             <?php foreach ($block->getItems() as $_item): ?>
                 <?php echo $block->getItemHtml($_item) ?>
+                <!-- 
+                    need a list of cruises with tickets as subs
+                    modify cart block to get
+
+                -->
             <?php endforeach ?>
         </table>
     </div>
