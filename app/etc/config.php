@@ -101,6 +101,7 @@ return array (
     'Magento_Weee' => 1,
     'Magento_CatalogWidget' => 1,
     'Magento_Wishlist' => 1,
+    'PWF_Cart' => 1,
     'Rokanthemes_Blog' => 1,
     'Rokanthemes_Categorytab' => 1,
     'Rokanthemes_CustomMenu' => 1,

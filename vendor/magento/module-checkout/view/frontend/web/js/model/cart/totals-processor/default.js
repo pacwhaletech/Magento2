@@ -1,7 +1,7 @@
 /**
  * Copyright © 2016 Magento. All rights reserved.
  * See COPYING.txt for license details.
- */
+
 define(
     [
         'underscore',
@@ -17,9 +17,9 @@ define(
         return {
             requiredFields: ['countryId', 'region', 'regionId', 'postcode'],
 
-            /**
+            **
              * Get shipping rates for specified address.
-             */
+             *
             estimateTotals: function (address) {
                 var serviceUrl, payload;
                 totalsService.isLoading(true);
@@ -54,3 +54,5 @@ define(
         };
     }
 );
+
+ */
