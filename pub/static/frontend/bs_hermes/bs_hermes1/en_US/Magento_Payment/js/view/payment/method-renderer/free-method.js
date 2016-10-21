@@ -1,0 +1,1 @@
+/Users/james/Documents/web/m/vendor/magento/module-payment/view/frontend/web/js/view/payment/method-renderer/free-method.js
