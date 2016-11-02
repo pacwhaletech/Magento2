@@ -51,4 +51,13 @@ module.exports = {
         ],
         dsl: 'less'
     }
+    bs_hermes: {
+        area: 'frontend',
+        name: 'bs_hermes/bs_hermes1',
+        locale: 'en_US',
+        files: [
+            'css/themes'
+        ],
+        dsl: 'less'
+    }
 };
