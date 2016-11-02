@@ -115,7 +115,14 @@ caption {
 }
 div.mage-error[generated]{ font-size: 0.75em;}
 .message.info > *:first-child:before,
-.message.success > *:first-child:before{ font-size: 24px;}
+.message.success{
+    color:@darkblue !important;
+    background-color:@lightgrey !important;
+}
+.message.success > *:first-child:before{
+    font-size: 24px; 
+    color:@darkblue;
+}
 .message.info,
 .page.messages{ font-size: 13px;}
 .login-container .block .block-title{ font-size: 1rem; text-transform: uppercase;}

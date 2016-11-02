@@ -11,11 +11,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         \Magento\Framework\App\Helper\Context $context, 
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-        \Magento\Checkout\Helper\Data $checkoutHelper
+        \Magento\Checkout\Helper\Data $checkoutHelper,
+        \Magento\Checkout\Model\Cart $cart
     )
     {
         $this->productRepository = $productRepository;
         $this->checkoutHelper = $checkoutHelper;
+        $this->cart = $cart;
         parent::__construct($context);
     }
     
@@ -23,6 +25,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $isCruiseTicket = $item->getProduct()->getAttributeSetId() == '9';
         return($isCruiseTicket);
+    }
+    
+    public function isCruiseMeal($item)
+    {
+        $isCruiseMeal = $item->getProduct()->getAttributeSetId() == '13';
+        return($isCruiseMeal);
     }
     
     public function getParentSku($item){
@@ -49,6 +57,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $obj['date'] = $date_time['date'];
         $obj['time'] = $date_time['time'];
         $obj['sku'] = $cruiseProduct->getSku();
+        $obj['cart_id'] = $item->getId();
         return $obj;
     }
     
@@ -62,10 +71,35 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $obj;
     }
     
+    public function buildMealObject($item){
+        $product = $item->getProduct();
+        $loadedProduct = $this->productRepository->get($product->getSku());
+        $obj = []; //dinner_cruise_meal_type
+        $obj['qty'] = $item->getQty();
+        $id = $loadedProduct->getData('dinner_cruise_meal_type');
+        $obj['name'] = $product->getResource()->getAttribute('dinner_cruise_meal_type')->getSource()->getOptionText($id);
+        return $obj;
+    }
+    
+    public function deleteItemsByCruiseSku($sku){
+        $items = $this->cart->getItems()->getItems();
+        foreach($items as $item){
+            if(($this->isCruiseTicket($item) || $this->isCruiseMeal($item)) && $this->getParentSku($item) == $sku){
+                $id = $item->getId();
+                try {
+                    $this->cart->removeItem($id)->save();
+                } catch (\Exception $e) {
+                    $this->messageManager->addError(__('We can\'t remove the item.'));
+                    $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
+                }
+            }
+        }
+    }
+    
     public function getNonCruiseItems($items){
         $nonCruiseItems = [];
         foreach($items as $item){
-            if(!$this->isCruiseTicket($item)){
+            if(!$this->isCruiseTicket($item) && !$this->isCruiseMeal($item)){
                 $nonCruiseItems[] = $item;
             }
         }
@@ -75,15 +109,20 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getCruiseTickets($items){
         $cruiseTickets = [];
         foreach($items as $item){
-            if($this->isCruiseTicket($item)){
+            if($this->isCruiseTicket($item) || $this->isCruiseMeal($item)){
                $cruiseSku = $this->getFullCruiseSku($item);
                if(!isset($cruiseTickets[$cruiseSku])){
                     $parentSku = $this->getParentSku($item);
                     $parentCruise = $this->getParentCruise($parentSku);
                     $cruiseObj = $this->buildCruiseObject($parentCruise, $item);
-                    $cruiseTickets[$cruiseSku] = ['cruise_product'=>$cruiseObj, 'cruise_tickets'=>[]];
+                    $cruiseTickets[$cruiseSku] = ['cruise_product'=>$cruiseObj, 'cruise_tickets'=>[], 'cruise_meals'=>[]];
                }
-                $cruiseTickets[$cruiseSku]['cruise_tickets'][] = $this->buildTicketObject($item);
+               if($this->isCruiseTicket($item)){
+                   $cruiseTickets[$cruiseSku]['cruise_tickets'][] = $this->buildTicketObject($item);
+               }
+               if($this->isCruiseMeal($item)){
+                    $cruiseTickets[$cruiseSku]['cruise_meals'][] = $this->buildMealObject($item);
+               }
             }
         }
         return $cruiseTickets;

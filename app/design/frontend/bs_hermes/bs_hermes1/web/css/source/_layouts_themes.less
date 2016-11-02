@@ -55,6 +55,7 @@
 .cms-index-index .page-main{ display: none;}
 .header-container{
 	.top-link-container{
+		border-bottom:5px solid @maincolor;
 		background: @bkgheader;
 		position: relative;
 	    z-index: 600;
@@ -113,16 +114,16 @@
 	    }
 	    .register-login{
     	    font-size: 14px;
-    		color: #888;
+    		color: @headerfootertext;
     		float: right;
     		margin-right: 25px;
     		padding-right: 40px;
     		border-right: 1px solid #404040;
     		a{
-    			color: #888;
+    			color: @headerfootertext;
     			text-transform: capitalize;
     			&:hover{
-    				color: #fff;
+    				color: @headerfootertexthover;
     			}
     		}
     		span{
@@ -156,7 +157,7 @@
 			    	label{ display: none;}
 			    	.top-search{
 			    		.fa{
-		    			    color: #ddd;
+		    			    color: @headerfootertext;
 						    font-size: 20px;
 						    cursor: pointer;
 						    line-height: 60px;
@@ -277,7 +278,7 @@
 			.icon-cart-header{
 				.fa{
 				    font-size: 24px;
-					color: #bbbbbb;
+					color: @headerfootertext;
 					line-height: 60px;
 				}
 			}
@@ -315,14 +316,14 @@
 	    			margin-left: 30px;
 	    		}
 	    		a{ 
-	    			color: #888888;
+	    			color: @headerfootertext;
 					font-size: 16px;
 					line-height: 60px;
 					span{
 						display: none;
 					}
 					&:hover{ 
-	    				color:#dddddd;
+	    				color:@headerfootertexthover;
 	    			}
 	    		}
 	    		
@@ -1569,7 +1570,7 @@
 				text-transform: uppercase;
 			}
 			p{
-				color: #888;
+				color: @headerfootertext;
 			}
 		}
 	}
@@ -1582,7 +1583,7 @@
 					display: inherit;
 				}
 				p{
-				    color: #888888;
+				    color: #eaedee;
     				font-style: italic;
     				font-size: 14px;
     				font-style: italic;
@@ -1636,11 +1637,11 @@
 					li{
 						a{
 							font-size: 14px;
-							color: #888;
+							color: @headerfootertext;
 							padding-bottom: 22px;
 							display: block;
 							&:hover{
-								color: @maincolor;
+								color: @headerfootertext;
 								text-decoration: underline;
 							}
 						}
@@ -1702,7 +1703,7 @@
 					display: none;
 				}
 				a{					
-					color: #888;
+					color: @headerfootertext;
 					font-size: 14px;
 					&:hover{
 						color:@maincolor;
@@ -1712,11 +1713,11 @@
 			}
 		}
 		.copyright{
-			color: #888;
+			color: @headerfootertext;
 			float: right;
 			font-size: 14px;
 			a{
-				color: @maincolor;
+				color: @headerfootertext;
 			}
 		}
 	}

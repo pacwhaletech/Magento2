@@ -42,9 +42,15 @@
         a:hover > span > span.cat-label {
             text-decoration: none;
         }
+        li.level0:first-child{
+        	> a > span{
+        		border:2px solid @maincolor;
+        	}
+        }
         li {
             > a > span {
                 position: relative;
+                padding:5px 10px;
             }
             &.level0 {
                 > .level-top {

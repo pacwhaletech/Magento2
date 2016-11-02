@@ -7,6 +7,7 @@
 // @codingStandardsIgnoreFile
 
 /**  @var $block \Magento\Checkout\Block\Cart */
+$orig_items = $block->getItems();
 $cart_helper =  $this->helper('PWF\Cart\Helper\Data');
 $cruises =      $cart_helper->getCruiseTickets($block->getItems());
 $non_cruises =  $cart_helper->getNonCruiseItems($block->getItems());
@@ -42,11 +43,18 @@ $non_cruises =  $cart_helper->getNonCruiseItems($block->getItems());
                 		<div class="product-item-details">
                     		<strong class="product-item-name">Tickets : <?php echo $item['cruise_product']['name']?></strong>
                             <dl class="item-options">
-                            	<dt>Cruise Time</dt>
+                            	<dt>Date</dt>
                                 <dd><?php echo $item['cruise_product']['date']?></dd>
-                                <dt>Cruise Date</dt>
+                                <dt>Time</dt>
                                 <dd><?php echo $item['cruise_product']['time']?></dd>
 							</dl>
+							<?php if(count($item['cruise_meals']) > 0) : ?>
+    							<dl class="item-options">
+    								<?php foreach($item['cruise_meals'] as $meal) : ?>
+    									<dt><?php echo $meal['name']?></dt><dd><?php echo $meal['qty']?></dd>
+    								<?php endforeach?>
+    							</dl>
+							<?php endif;?>
                         </div>
             		</td>
             	</tr>
@@ -62,6 +70,13 @@ $non_cruises =  $cart_helper->getNonCruiseItems($block->getItems());
                 		<td><?php echo $ticket['subtotal']?></td>
                 	</tr>
             	<? endforeach;?>
+            	<tr class="item-actions">
+                    <td colspan="100">
+                        <div class="actions-toolbar">
+                                <a class="action action-delete" href="http://localhost:8888/m/checkout/cart/deletecruise/id/<?php echo $item['cruise_product']['cart_id']?>" title="Delete Cruise Tickets"><span>Remove this cruise </span></a>
+                        </div>
+                    </td>
+                </tr>
             <? endforeach;?>
             
             
