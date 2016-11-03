@@ -1,6 +1,6 @@
 <?php 
 
-namespace PWF\Cart\Helper;
+namespace PWF\CruiseCart\Helper;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\App\Helper\Context;
@@ -46,7 +46,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $parentSku = $this->getParentSku($item);
         $product = $item->getProduct();
         $date_time = $this->getCruiseDateAndTime($product);
-        $fullSku = $parentSku . '|' . $date_time['date'] . '|' . $date_time['time'];
+        $date = str_replace('/', '_', $date_time['date']);
+        $time = str_replace(':', '_', $date_time['time']);
+        $fullSku = $parentSku . '_' . $date . '_' . $time;
         return($fullSku);
     }
     
@@ -84,12 +86,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function deleteItemsByCruiseSku($sku){
         $items = $this->cart->getItems()->getItems();
         foreach($items as $item){
-            if(($this->isCruiseTicket($item) || $this->isCruiseMeal($item)) && $this->getParentSku($item) == $sku){
+            if(($this->isCruiseTicket($item) || $this->isCruiseMeal($item)) && $this->getFullCruiseSku($item) == $sku){
                 $id = $item->getId();
                 try {
                     $this->cart->removeItem($id)->save();
                 } catch (\Exception $e) {
-                    $this->messageManager->addError(__('We can\'t remove the item.'));
+                    $this->messageManager->addError(__('We can\'t remove the cruise.'));
                     $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
                 }
             }

@@ -8,7 +8,7 @@
 
 /**  @var $block \Magento\Checkout\Block\Cart */
 $orig_items = $block->getItems();
-$cart_helper =  $this->helper('PWF\Cart\Helper\Data');
+$cart_helper =  $this->helper('PWF\CruiseCart\Helper\Data');
 $cruises =      $cart_helper->getCruiseTickets($block->getItems());
 $non_cruises =  $cart_helper->getNonCruiseItems($block->getItems());
 ?>
@@ -37,7 +37,7 @@ $non_cruises =  $cart_helper->getNonCruiseItems($block->getItems());
                     <th class="col subtotal" scope="col"><span><?php /* @escapeNotVerified */ echo __('Subtotal') ?></span></th>
                 </tr>
             </thead>
-            <?php foreach ($cruises as $item): ?>
+            <?php foreach ($cruises as $key=>$item): ?>
             	<tr>
             		<td colspan="4">
                 		<div class="product-item-details">
@@ -73,8 +73,8 @@ $non_cruises =  $cart_helper->getNonCruiseItems($block->getItems());
             	<tr class="item-actions">
                     <td colspan="100">
                         <div class="actions-toolbar">
-                                <a class="action action-delete" href="http://localhost:8888/m/checkout/cart/deletecruise/id/<?php echo $item['cruise_product']['cart_id']?>" title="Delete Cruise Tickets"><span>Remove this cruise </span></a>
-                        </div>
+                        	<a class="action action-delete" href="/cruisecart/checkout/delete/sku/<?php echo urlencode($key)?>" title="Delete Cruise Tickets"><span>Remove this cruise </span></a>
+                    	</div>
                     </td>
                 </tr>
             <? endforeach;?>

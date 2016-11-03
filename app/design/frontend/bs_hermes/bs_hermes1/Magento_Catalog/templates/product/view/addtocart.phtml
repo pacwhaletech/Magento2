@@ -410,7 +410,7 @@ use Rokanthemes\PriceCountdown\Helper\Ticket;
         $scope.hasNoTimes = hasNoTimes;
         function loadDatesAndTimes($scope){
         	$scope.tourCode = '<?php echo $tour_code;?>';
-        	$http.post('/m/custom/check_avail.php', {tourcode:$scope.tourCode}).then(function(response){
+        	$http.post('/custom/check_avail.php', {tourcode:$scope.tourCode}).then(function(response){
         		$scope.datesAndTimes = response.data;
         		$scope.cruiseDate = 'Select a date';
 				var options = {

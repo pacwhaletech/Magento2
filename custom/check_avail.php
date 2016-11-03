@@ -2,8 +2,8 @@
 
 //Load Store (drupal+ubercart) files
 
-include_once($_SERVER['DOCUMENT_ROOT'].'/m/custom/clsParseXML.php');
-include_once($_SERVER['DOCUMENT_ROOT'].'/m/custom/AlPro.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/custom/clsParseXML.php');
+include_once($_SERVER['DOCUMENT_ROOT'].'/custom/AlPro.php');
 
 if ($_SERVER['SERVER_NAME']=="www.pacificwhale.org") {
   # AlPro's webportal production server

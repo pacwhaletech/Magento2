@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
-    <module name="PWF_Cart" setup_version="1.0.0">
+    <module name="PWF_CruiseCart" setup_version="1.0.0">
     </module>
 </config>
