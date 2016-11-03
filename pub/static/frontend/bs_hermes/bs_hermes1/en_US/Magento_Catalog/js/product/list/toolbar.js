@@ -1,0 +1,1 @@
+/Users/james/Documents/web/m/vendor/magento/module-catalog/view/frontend/web/js/product/list/toolbar.js
