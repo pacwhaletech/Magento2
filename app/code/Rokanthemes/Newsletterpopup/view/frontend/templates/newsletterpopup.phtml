@@ -80,8 +80,8 @@ require(["jquery"], function($){
 			
 		// setCookie("shownewsletter",'1',1);
 		// alert(getCookie("shownewsletter"));
-
-		if(getCookie("shownewsletter") != 1){
+		if(false){
+		// if(getCookie("shownewsletter") != 1){
 			var pPopup = $('#newsletter_pop_up').bPopup({
 				position: ['auto', <?php if($top != '') echo $top; else echo '120'; ?>],
 				speed: <?php if($speed != '') echo $speed; else echo '450' ?>,
